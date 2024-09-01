@@ -36,29 +36,76 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
     }, [movie.id]);
 
     return (
-        <div key={movie.id} id={movie.id} className='card m-2' style={{ cursor: "pointer", width: "18rem", height: "30rem", overflow: "hidden" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onClick={handleCardClick}>
-                    <div className="d-flex justify-content-end"  style={{opacity: isHovered ? 1 : 0, transition: "opacity 0.3s ease"}}>  
-                        <img src={bin} class="bi bi-trash3 m-3" alt="Delete"  onClick={handleDelete}/>
-                    </div>  
-                    <img src={movie.image || placeholder} className="card-img-top" alt={movie.name}/>
-                    <div className="card-body d-flex justify-content-between align-items-center">
-                      <h5 className="card-title" style={{overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "75%"}}>{movie.name}</h5>
-                      
-                      <img
-                        src={isLiked ? redHeart : heart}
-                        className="bi bi-heart"
-                        alt="heart"
-                        onClick={toggleHeart}
+        <div 
+            key={movie.id} 
+            id={movie.id} 
+            className='card m-2' 
+            style={{ 
+                cursor: "pointer", 
+                width: "18rem", 
+                height: "30rem", 
+                overflow: "hidden" 
+            }} 
+            onMouseEnter={() => setIsHovered(true)} 
+            onMouseLeave={() => setIsHovered(false)} 
+            onClick={handleCardClick}
+        >
+            <div 
+                className="d-flex justify-content-end"  
+                style={{
+                    opacity: isHovered ? 1 : 0, 
+                    transition: "opacity 0.3s ease"
+                }}
+            >  
+                <img 
+                    src={bin} 
+                    className="bi bi-trash3 m-3" 
+                    alt="Delete"  
+                    onClick={handleDelete}
+                />
+            </div>  
+            <img 
+                src={movie.image || placeholder} 
+                className="card-img-top" 
+                alt={movie.name}
+            />
+            <div 
+                className="card-body d-flex justify-content-between align-items-center"
+            >
+                <h5 
+                    className="card-title" 
+                        style={{
+                            overflow: "hidden", 
+                            whiteSpace: "nowrap", 
+                            textOverflow: "ellipsis", 
+                            width: "75%"
+                        }}
+                >
+                    {movie.name}
+                </h5>                     
+                <img
+                    src={isLiked ? redHeart : heart}
+                    className="bi bi-heart"
+                    alt="heart"
+                    onClick={toggleHeart}
                         style={{ cursor: "pointer" }}
-                      />                    
-                    </div>
-                    <div className="m-3" id={`about-text-${movie.id}`} style={{ position: 'relative', height: '4.8rem', overflow: 'hidden' }}>
+                />                    
+            </div>
+            <div 
+                className="m-3" 
+                id={`about-text-${movie.id}`} 
+                style={{ 
+                    position: 'relative', 
+                    height: '4.8rem', 
+                    overflow: 'hidden' 
+                }}
+            >
                 <p
                     className="card-text"
                     style={{
                         textOverflow: "ellipsis",
                         display: "-webkit-box",
-                        WebkitLineClamp: 4, // Limits to 4 lines
+                        WebkitLineClamp: 4,
                         WebkitBoxOrient: "vertical",
                         overflow: 'hidden',
                         marginBottom: '0'
@@ -77,7 +124,7 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                             position: 'absolute',
                             bottom: '0',
                             right: '0',
-                            backgroundColor: 'white', // Make sure the link stands out
+                            backgroundColor: 'white',
                             paddingLeft: '5px',
                         }}
                     >
@@ -85,7 +132,7 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                     </a>
                 )}
             </div>
-                  </div>
+        </div>
     )
 }
 
