@@ -6,7 +6,7 @@ import bin from "../bin.svg";
 import { useNavigate } from "react-router-dom";
 
 
-const MovieCard = ({movie, onDelete}) => {
+const MovieCard = ({movie, onDelete, onToggleLike}) => {
     
     const [isLiked, setIsLiked] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -14,7 +14,8 @@ const MovieCard = ({movie, onDelete}) => {
 
     const toggleHeart = (e) => {
         e.stopPropagation();
-        setIsLiked(!isLiked);      
+        setIsLiked(!isLiked);
+        onToggleLike(movie.id);      
       };
 
     const handleDelete = (e) => {
