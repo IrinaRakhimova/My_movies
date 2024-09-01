@@ -14,7 +14,13 @@ function App() {
     { id: 3, name: "Film 3", about: "This is a good movie" },
     { id: 4, name: "Film 4", about: "This is a good movie" },
     { id: 5, name: "Film 5", about: "This is a good movie" },
-    { id: 6, name: "Film 6", about: "This is a good movie" }
+    { id: 6, name: "Film 6", about: "This is a good movie" },
+    { id: 7, name: "Film 7", about: "This is a good movie" },
+    { id: 8, name: "Film 8", about: "This is a good movie" },
+    { id: 9, name: "Film 9", about: "This is a good movie" },
+    { id: 10, name: "Film 10", about: "This is a good movie" },
+    { id: 11, name: "Film 11", about: "This is a good movie" },
+    { id: 12, name: "Film 12", about: "This is a good movie" },
   ]);
   
   const [searchQuery, setSearchQuery] = useState("");
