@@ -31,17 +31,19 @@ const MovieCard = ({movie, onDelete}) => {
                     <div className="d-flex justify-content-end"  style={{opacity: isHovered ? 1 : 0, transition: "opacity 0.3s ease"}}>  
                         <img src={bin} class="bi bi-trash3 m-3" alt="Delete"  onClick={handleDelete}/>
                     </div>  
-                    <img src={placeholder} className="card-img-top" alt={movie.name}/>
+                    <img src={movie.image || placeholder} className="card-img-top" alt={movie.name}/>
                     <div className="card-body d-flex justify-content-between align-items-center">
                       <h5 className="card-title">{movie.name}</h5>
+                      
                       <img
                         src={isLiked ? redHeart : heart}
                         className="bi bi-heart"
                         alt="heart"
                         onClick={toggleHeart}
                         style={{ cursor: "pointer" }}
-        />
+                      />                    
                     </div>
+                    <p className="card-text m-3">{movie.about}</p>
                   </div>
     )
 }
