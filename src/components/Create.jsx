@@ -31,7 +31,8 @@ function Create({ addMovie }) {
             id: Date.now(),
             name: movieName,
             about: movieAbout,
-            image: movieFile || placeholder, 
+            image: movieFile || placeholder,
+            isLiked: false, 
     };
 
     addMovie(newMovie);

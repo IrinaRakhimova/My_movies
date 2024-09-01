@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
 
@@ -6,6 +6,15 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
 
     const [message, setMessage] = useState("");
     const [showFavorites, setShowFavorites] = useState(false);
+
+    useEffect(() => {
+      const savedMovies = JSON.parse(localStorage.getItem('movies')) || [];
+      setMovies(savedMovies);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('movies', JSON.stringify(movies));
+    }, [movies]);
     
     const handleDelete = (id) => {
       setMovies(movies.filter(movie => movie.id !== id));

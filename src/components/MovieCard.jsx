@@ -8,15 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({movie, onDelete, onToggleLike}) => {
     
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(movie.isLiked || false);
     const [isHovered, setIsHovered] = useState(false);
     const [isOverflowed, setIsOverflowed] = useState(false);
     const navigate = useNavigate(); 
 
+    useEffect(() => {
+      setIsLiked(movie.isLiked);
+    }, [movie.isLiked]);
+
     const toggleHeart = (e) => {
         e.stopPropagation();
-        setIsLiked(!isLiked);
-        onToggleLike(movie.id);      
+        const newLikedStatus = !isLiked;
+        setIsLiked(newLikedStatus);
+        onToggleLike(movie.id, newLikedStatus);       
     };
 
     const handleDelete = (e) => {
