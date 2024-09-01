@@ -7,6 +7,7 @@ function Create({ addMovie }) {
     const [movieName, setMovieName] = useState("");
     const [movieAbout, setMovieAbout] = useState("");
     const [movieFile, setMovieFile] = useState(null);
+    const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
@@ -37,6 +38,7 @@ function Create({ addMovie }) {
     setMovieName("");
     setMovieAbout("");
     setMovieFile(null);
+    setMessage(`You added a new movie: ${movieName}`);
     };
 
     const handleClick = () => {
@@ -67,6 +69,7 @@ function Create({ addMovie }) {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form> 
+            <p>{message}</p>
             <button className="btn btn-secondary" onClick={handleClick}>Main page</button>
         </div> 
     );

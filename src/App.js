@@ -15,7 +15,9 @@ function App() {
     { id: 4, name: "Film 4", about: "This is a good movie" },
     { id: 5, name: "Film 5", about: "This is a good movie" },
     { id: 6, name: "Film 6", about: "This is a good movie" }
-  ]); 
+  ]);
+  
+  const [searchQuery, setSearchQuery] = useState("");
 
   const addMovie = (newMovie) => {
     setMovies([...movies, newMovie]);
@@ -23,7 +25,7 @@ function App() {
 
   const router = createBrowserRouter(createRoutesFromElements(
       <>
-          <Route path="products" element={ <Movies movies={movies} setMovies={setMovies} /> } />
+          <Route path="products" element={ <Movies movies={movies} setMovies={setMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> } />
           <Route path="products/:id" element={ <MoviePage movies={movies} /> }/>
           <Route path="products/create" element={ <Create addMovie={addMovie} /> }/>
           
