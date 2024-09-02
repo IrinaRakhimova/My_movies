@@ -4,6 +4,7 @@ import './App.css';
 import Movies from './components/Movies';
 import MoviePage from "./components/MoviePage";
 import Create from "./components/Create";
+import EditMovie from "./components/EditMovie";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="products" element={ <Movies movies={movies} setMovies={setMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> } />
           <Route path="products/:id" element={ <MoviePage movies={movies} /> }/>
           <Route path="products/create" element={ <Create addMovie={addMovie} /> }/>
+          <Route path="products/edit/:id" element={ <EditMovie movies={movies} setMovies={setMovies} /> } />
           
       </>
   ));

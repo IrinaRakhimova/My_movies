@@ -57,7 +57,7 @@ function Create({ addMovie }) {
                     </div>
                 </div>
                 <div className="row mb-3">
-                    <label for="About" className="col-sm-2 col-form-label">Password</label>
+                    <label for="About" className="col-sm-2 col-form-label">About</label>
                     <div className="col-sm-10">
                         <textarea className="form-control" id="About" value={movieAbout} onChange={(e) => setMovieAbout(e.target.value)} required></textarea>
                     </div>

@@ -3,6 +3,7 @@ import placeholder from "../film_placeholder.png";
 import heart from "../heart.svg";
 import redHeart from "../red_heart.svg";
 import bin from "../bin.svg";
+import edit from "../edit.svg";
 import { useNavigate } from "react-router-dom";
 
 
@@ -23,6 +24,11 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
         setIsLiked(newLikedStatus);
         onToggleLike(movie.id, newLikedStatus);       
     };
+
+    const handleEdit = (e) => {
+      e.stopPropagation(); 
+      navigate(`/products/edit/${movie.id}`);
+  };
 
     const handleDelete = (e) => {
         e.stopPropagation(); 
@@ -56,18 +62,25 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
             onClick={handleCardClick}
         >
             <div 
-                className="d-flex justify-content-end"  
+                className="d-flex justify-content-between"  
                 style={{
                     opacity: isHovered ? 1 : 0, 
                     transition: "opacity 0.3s ease"
                 }}
             >  
                 <img 
+                    src={edit} 
+                    className="bi bi-pencil-square m-3" 
+                    alt="Edit"  
+                    onClick={handleEdit}
+                />
+                <img 
                     src={bin} 
                     className="bi bi-trash3 m-3" 
                     alt="Delete"  
                     onClick={handleDelete}
                 />
+                
             </div>  
             <img 
                 src={movie.image || placeholder} 
