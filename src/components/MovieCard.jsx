@@ -55,18 +55,28 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                 cursor: "pointer", 
                 width: "18rem", 
                 height: "30rem", 
-                overflow: "hidden" 
+                overflow: "hidden",
+                position: "relative" 
             }} 
             onMouseEnter={() => setIsHovered(true)} 
             onMouseLeave={() => setIsHovered(false)} 
             onClick={handleCardClick}
         >
+            <img 
+                src={movie.image || placeholder} 
+                className="card-img-top" 
+                alt={movie.name}
+            />
             <div 
                 className="d-flex justify-content-between"  
                 style={{
-                    opacity: isHovered ? 1 : 0, 
-                    transition: "opacity 0.3s ease"
-                }}
+                  position: 'absolute', // Absolute positioning for the icons
+                  opacity: isHovered ? 1 : 0, 
+                  transition: "opacity 0.3s ease",
+                  zIndex: 10,
+                  backgroundColor: "#ffffff9c",
+                  width: "100%"
+              }}
             >  
                 <img 
                     src={edit} 
@@ -82,11 +92,6 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                 />
                 
             </div>  
-            <img 
-                src={movie.image || placeholder} 
-                className="card-img-top" 
-                alt={movie.name}
-            />
             <div 
                 className="card-body d-flex justify-content-between align-items-center"
             >

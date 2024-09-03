@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import placeholder from "../film_placeholder.png";
 import { useNavigate } from "react-router-dom";
+import AddMovie from "./AddMovie";
 
 function Create({ addMovie }) {
 
@@ -72,6 +73,7 @@ function Create({ addMovie }) {
             </form> 
             <p>{message}</p>
             <button className="btn btn-secondary" onClick={handleClick}>Main page</button>
+            <AddMovie addMovie={addMovie} />
         </div> 
     );
 }
