@@ -22,7 +22,8 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
         e.stopPropagation();
         const newLikedStatus = !isLiked;
         setIsLiked(newLikedStatus);
-        onToggleLike(movie.id, newLikedStatus);       
+        onToggleLike(movie.id, newLikedStatus);
+        console.log(movie);       
     };
 
     const handleEdit = (e) => {
@@ -62,11 +63,25 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
             onMouseLeave={() => setIsHovered(false)} 
             onClick={handleCardClick}
         >
-            <img 
-                src={movie.image || placeholder} 
-                className="card-img-top" 
-                alt={movie.name}
-            />
+            <div 
+                style={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: '20rem',
+                    backgroundColor: "#8080804a"
+                }}
+            >
+                <img 
+                    src={movie.image || placeholder} 
+                    alt={movie.name}
+                    style={{ 
+                        maxHeight: '100%', 
+                        maxWidth: '100%', 
+                        objectFit: 'cover' 
+                    }}
+                />
+            </div>
             <div 
                 className="d-flex justify-content-between"  
                 style={{

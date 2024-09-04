@@ -3,14 +3,19 @@ import placeholder from "../film_placeholder.png";
 import { useNavigate } from "react-router-dom";
 import AddMovie from "./AddMovie";
 
-function Create({ addMovie }) {
+function Create({ addMovie, removeMovie, isInMovies }) {
 
     const [movieName, setMovieName] = useState("");
     const [movieAbout, setMovieAbout] = useState("");
     const [movieFile, setMovieFile] = useState(null);
+    const [movieRating, setMovieRating] = useState(50);
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
+
+    const handleRangeChange = (e) => {
+        setMovieRating(e.target.value);
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -33,6 +38,7 @@ function Create({ addMovie }) {
             name: movieName,
             about: movieAbout,
             image: movieFile || placeholder,
+            rating: movieRating,
             isLiked: false, 
     };
 
@@ -40,6 +46,7 @@ function Create({ addMovie }) {
     setMovieName("");
     setMovieAbout("");
     setMovieFile(null);
+    setMovieRating();
     setMessage(`You added a new movie: ${movieName}`);
     };
 
@@ -69,11 +76,18 @@ function Create({ addMovie }) {
                         <input className="form-control" type="file" id="formFile" onChange={handleFileChange}/>
                     </div>
                 </div>
+                <div className="row mb-3">
+                    <label for="customRange1" class="col-sm-2 col-form-label">Example range</label>
+                    <div className="col-sm-10">
+                    <input type="range" class="form-range" id="customRange1" min="0" max="100"  value={movieRating} onChange={handleRangeChange} />
+                    </div>
+                    <output className="col-sm-2" style={{ paddingLeft: "10px" }}>{movieRating}%</output>
+                </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form> 
             <p>{message}</p>
             <button className="btn btn-secondary" onClick={handleClick}>Main page</button>
-            <AddMovie addMovie={addMovie} />
+            <AddMovie addMovie={addMovie} removeMovie={removeMovie} isInMovies={isInMovies}/>
         </div> 
     );
 }

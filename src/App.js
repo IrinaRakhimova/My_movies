@@ -10,7 +10,10 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 
 function App() { 
   const [movies, setMovies] = useState([
-    { id: 1, name: "Film 1", about: "This is a good movie" },
+    { id: 809, 
+      name: "Shrek 2", 
+      about: "Shrek, Fiona, and Donkey set off to Far, Far Away to meet Fiona's mother and father, the Queen and King.", 
+      image: "https://image.tmdb.org/t/p/w500/2yYP0PQjG8zVqturh1BAqu2Tixl.jpg" },
     { id: 2, name: "Film 2", about: "This is a good movie" },
     { id: 3, name: "Film 3", about: "This is a good movie" },
     { id: 4, name: "Film 4", about: "This is a good movie" },
@@ -27,14 +30,24 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const addMovie = (newMovie) => {
-    setMovies([...movies, newMovie]);
+    setMovies([newMovie, ...movies]);
   };
+
+  const removeMovie = (id) => {
+    setMovies(movies.filter(movie => movie.id !== id));
+};
+
+  const isInMovies = (id) => {
+    return movies.some(movie => movie.id === id);
+  };
+
+
 
   const router = createBrowserRouter(createRoutesFromElements(
       <>
           <Route path="products" element={ <Movies movies={movies} setMovies={setMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> } />
           <Route path="products/:id" element={ <MoviePage movies={movies} /> }/>
-          <Route path="products/create" element={ <Create addMovie={addMovie} /> }/>
+          <Route path="products/create" element={ <Create addMovie={addMovie} removeMovie={removeMovie} isInMovies={isInMovies} /> }/>
           <Route path="products/edit/:id" element={ <EditMovie movies={movies} setMovies={setMovies} /> } />
           
       </>

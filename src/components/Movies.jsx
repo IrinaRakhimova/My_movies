@@ -9,6 +9,7 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
     const [message, setMessage] = useState("");
     const [showFavorites, setShowFavorites] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [ratingFilter, setRatingFilter] = useState("all");
 
     useEffect(() => {
       const savedMovies = JSON.parse(localStorage.getItem('movies')) || [];
@@ -30,11 +31,22 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
       setMovies(updatedMovies);
   };
 
-    const filteredMovies = movies.filter(movie => 
-      (movie.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      movie.about.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      (!showFavorites || movie.isLiked)
-    );
+  const filteredMovies = movies.filter((movie) => {
+    const matchesSearch =
+        movie.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        movie.about.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesFavorites = !showFavorites || movie.isLiked;
+
+    const matchesRating =
+        ratingFilter === "all" ||
+        (ratingFilter === "80-100" && movie.rating >= 80) ||
+        (ratingFilter === "60-80" && movie.rating >= 60 && movie.rating < 80) ||
+        (ratingFilter === "40-60" && movie.rating >= 40 && movie.rating < 60) ||
+        (ratingFilter === "0-40" && movie.rating < 40);
+
+    return matchesSearch && matchesFavorites && matchesRating;
+});
 
     const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -47,8 +59,8 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
     return (
     <main className="container">
         <div className="row justify-content-center mt-3 mb-3">
-            <Navbar setSearchQuery={setSearchQuery} setMessage={setMessage} showFavorites={showFavorites} setShowFavorites={setShowFavorites}/>
-            <div style={{ height: "24px" }} className="text-end">
+            <Navbar setSearchQuery={setSearchQuery} setMessage={setMessage} showFavorites={showFavorites} setShowFavorites={setShowFavorites} setCurrentPage={setCurrentPage} setRatingFilter={setRatingFilter}/>
+            <div style={{ height: "24px" }} className="text-center">
                     {searchQuery && <p>{message}</p>}
                 </div>
             {currentMovies.map((movie) => (

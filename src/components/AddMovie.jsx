@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import MoviesPreview from "./MoviesPreview";
 
-function AddMovie({ addMovie }) {
+function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     const tmdbKey = '8fdcec10b06a580073073c04bcb6bad2';
     const tmdbBaseUrl = 'https://api.themoviedb.org/3';
     const ITEMS_PER_PAGE = 24;
@@ -14,7 +14,6 @@ function AddMovie({ addMovie }) {
 
     const options = { method: 'GET', headers: { accept: 'application/json' } };
 
-    // Function to fetch movies based on keyword and page number
     const fetchMovies = (searchTerm, pageNumber) => {
         const requestParams = `?api_key=${tmdbKey}&query=${searchTerm}&page=${pageNumber}`;
 
@@ -22,14 +21,15 @@ function AddMovie({ addMovie }) {
             .then(response => response.json())
             .then(data => {
                 setTotalPages(data.total_pages);
-                return data.results;
+                console.log(data.results);
+                return data.results;               
             });
     };
 
     const handleChange = (e) => {
         const newKeyword = e.target.value;
         setKeyword(newKeyword);
-        setCurrentPage(1);  // Reset to the first page whenever a new search is made
+        setCurrentPage(1);
 
         if (newKeyword) {
             fetchMovies(newKeyword, 1).then((initialResults) => {
@@ -37,7 +37,7 @@ function AddMovie({ addMovie }) {
             });
         } else {
             setResults([]);
-            setTotalPages(0);  // Reset total pages if search is empty
+            setTotalPages(0);
         }
     };
 
@@ -107,7 +107,10 @@ function AddMovie({ addMovie }) {
                             id={movie.id} 
                             image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                             about={movie.overview}
-                            addMovie={addMovie} 
+                            rating={Math.round(movie.vote_average*10)}
+                            addMovie={addMovie}
+                            removeMovie={removeMovie}
+                            isInMovies={isInMovies}
                         />
                     </div>
                 ))}

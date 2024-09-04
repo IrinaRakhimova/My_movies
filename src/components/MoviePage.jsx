@@ -15,8 +15,9 @@ function MoviePage({ movies }) {
     return (
         <div className="container">
             <h1 className="my-2">{movie.name}</h1>
-            <img src={movie.image} alt={movie.name} />
+            <img src={movie.image || placeholder} alt={movie.name} />
             <p>{movie.about}</p>
+            <p>Rating: {movie.rating}%</p>
             <button className="btn btn-secondary" onClick={handleClick}>Main page</button>
         </div>
     );
