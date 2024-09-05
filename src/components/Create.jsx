@@ -58,7 +58,7 @@ function Create({ addMovie, removeMovie, isInMovies }) {
     return (
             <div className="container">
                 <button className="btn btn-secondary mx-5 mt-2" onClick={handleClick} style={{backgroundColor: "white", border: "none", color: "#0d6efd"}}><img src={arrow}/> Главная страница</button>
-                <h2 className="text-center mt-4">Добавить свой фильм</h2>
+                <h1 className="text-center mt-4">Добавить свой фильм</h1>
                 <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4">
                     <div className="row mb-3">
                         <label for="Name" className="col-sm-2 col-form-label">Название</label>
@@ -86,8 +86,8 @@ function Create({ addMovie, removeMovie, isInMovies }) {
                         </div>
                         
                     </div>
-                    <div className="d-flex justify-content-center flex-column align-items-center">
-                        <button type="submit" className="btn btn-primary w-50">Добавить</button>
+                    <div className="d-flex justify-content-center flex-column align-items-end">
+                        <button type="submit" className="btn btn-primary w-25">Добавить</button>
                         <p className="mt-4 fw-bold text-success">{message}</p>
                     </div>
                 </form> 

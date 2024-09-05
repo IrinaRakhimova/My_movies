@@ -11,6 +11,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     const [results, setResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [noResults, setNoResults] = useState(false);
 
     const options = { method: 'GET', headers: { accept: 'application/json' } };
 
@@ -21,7 +22,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
             .then(response => response.json())
             .then(data => {
                 setTotalPages(data.total_pages);
-                console.log(data.results);
+                setNoResults(data.results.length === 0);
                 return data.results;               
             });
     };
@@ -68,7 +69,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
             <>
                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-                        Previous
+                        Предидущая
                     </button>
                 </li>
                 {totalPages > MAX_PAGE_BUTTONS && (
@@ -87,7 +88,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
                 {totalPages <= MAX_PAGE_BUTTONS && pages}
                 <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-                        Next
+                        Следующая
                     </button>
                 </li>
             </>
@@ -96,10 +97,17 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     return (
             <div className="row mb-3 container">
                 <div className="mx-5">
-                    <h2 className="text-center mt-4">Найти фильм</h2>
-                    <div className="col-sm-10 mt-4 d-flex justify-content-center" style={{width: "988px"}}>
-                        <input type="search" className="form-control w-50" id="Movie" placeholder="Начните вводть название фильма" value={keyword} onChange={handleChange} />
+                    
+                    <div className="col-sm-10 mt-4 d-flex flex-column justify-content-center align-items-center" style={{width: "1200px"}}>
+                        <h1 className="text-center mt-4">Найти фильм</h1>
+                        <input type="search" className="form-control w-50 mt-3" id="Movie" placeholder="Начните вводть название фильма" value={keyword} onChange={handleChange} />
+                        {noResults && (
+                        <div className="text-center mt-3" style={{ color: "red" }}>
+                            Список пуст. Введите другой запрос.
+                        </div>
+                        )}
                     </div>
+                    
                     <div className="row mt-3">
                     {results.map(movie => (
                         <div className="col-md-3 d-flex justify-content-center mb-4" key={movie.id}>
