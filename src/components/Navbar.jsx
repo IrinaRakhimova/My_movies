@@ -1,12 +1,10 @@
-
-import { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
-import Filters from "./Filters";
+import plus from "../plus.svg";
+import heart from "../heart_small.svg";
 
-function Navbar({ setSearchQuery, setMessage, setShowFavorites, showFavorites, setCurrentPage, setRatingFilter }) {
+function Navbar({ setSearchQuery, setMessage, setShowFavorites, showFavorites, setCurrentPage }) {
     
     const navigate = useNavigate();
-    const [showFilters, setShowFilters] = useState(false); 
 
     const handleClick = () => {
         navigate(`/products/create`);
@@ -22,47 +20,22 @@ function Navbar({ setSearchQuery, setMessage, setShowFavorites, showFavorites, s
         setCurrentPage(1);
     };
 
-    const toggleFilters = () => {
-        setShowFilters(!showFilters);
-    };
-
     return (
         <>
-            <nav className="navbar sticky-top bg-body-tertiary bg-body-tertiary" style={{width: "100%"}}>
-                <div className="container-fluid">
-                    <a href="#" className="navbar-brand new-amsterdam-regular fs-1">My movies</a>
-                    <div>
-                        <div className="d-flex">
-                            <button type="button" className="btn btn-primary" onClick={handleClick}>Добавить фильм</button>
-                            <button type="button" className="btn btn-secondary mx-3" onClick={toggleFavorites}>
-                                {showFavorites ? "Показать все" : "Показать любимые"}
+            <nav className="navbar sticky-top" style={{width: "100%", backgroundColor: "black"}}>
+                <div className="container-fluid" style={{maxWidth: "1290px"}}>
+                    <a href="#" className="navbar-brand new-amsterdam-regular fs-1 ms-5" style={{color: "white"}}>My movies</a>
+                        <div className="d-flex me-5">
+                            <button type="button" className="btn btn-primary" onClick={handleClick} style={{width: "13rem"}}><img src={plus} className="mb-1"/> Добавить фильм</button>
+                            <button type="button" className="btn btn-secondary mx-3" onClick={toggleFavorites}  style={{width: "13rem"}}>
+                                {showFavorites ? "Показать все" : <p className="mb-0"><img src={heart}/> Показать любимые</p>}
                             </button>
-                            <form className="d-flex" role="search">
+                            <form className="d-flex ms-5" role="search" style={{width: "13rem"}}>
                                 <input className="form-control" type="search" placeholder="Поиск" aria-label="Поиск" onChange={handleSearch}/>
                             </form>
-                        </div>
-                        <div className="d-flex justify-content-end">
-                            <button
-                                style={{
-                                    background: "none",
-                                    border: "none",
-                                    color: "blue",
-                                    textDecoration: "underline",
-                                    cursor: "pointer",
-                                    fontSize: "inherit",
-                                    fontFamily: "inherit",
-                                    padding: 0,
-                                    margin: 0,
-                                }}
-                                onClick={toggleFilters}
-                            >
-                                {showFilters ? "Скрыть фильтр" : "Фильтр по рейтигну"}
-                            </button>
-                        </div>
                     </div>
                 </div>   
             </nav>
-            {showFilters && <Filters setRatingFilter={setRatingFilter}/>}
         </>
     );
 }

@@ -15,7 +15,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     const options = { method: 'GET', headers: { accept: 'application/json' } };
 
     const fetchMovies = (searchTerm, pageNumber) => {
-        const requestParams = `?api_key=${tmdbKey}&query=${searchTerm}&page=${pageNumber}`;
+        const requestParams = `?api_key=${tmdbKey}&query=${searchTerm}&page=${pageNumber}&language=ru`;
 
         return fetch(`${tmdbBaseUrl}/search/movie${requestParams}`, options)
             .then(response => response.json())
@@ -42,7 +42,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     };
 
     const handlePageChange = (page) => {
-        if (page < 1 || page > totalPages) return; // Prevent invalid page navigation
+        if (page < 1 || page > totalPages) return; 
         setCurrentPage(page);
         fetchMovies(keyword, page).then((newResults) => {
             setResults(newResults);
@@ -94,36 +94,38 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
         );
     };
     return (
-            <div className="row mb-3">
-                <label for="Movie" className="col-sm-2 col-form-label">Search movie</label>
-                <div className="col-sm-10">
-                    <input type="text" className="form-control" id="Movie" value={keyword} onChange={handleChange} />
-                </div>
-                <div className="row">
-                {results.map(movie => (
-                    <div className="col-md-3 d-flex justify-content-center mb-4" key={movie.id}>
-                        <MoviesPreview 
-                            name={movie.title} 
-                            id={movie.id} 
-                            image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            about={movie.overview}
-                            rating={Math.round(movie.vote_average*10)}
-                            addMovie={addMovie}
-                            removeMovie={removeMovie}
-                            isInMovies={isInMovies}
-                        />
+            <div className="row mb-3 container">
+                <div className="mx-5">
+                    <h2 className="text-center mt-4">Найти фильм</h2>
+                    <div className="col-sm-10 mt-4 d-flex justify-content-center" style={{width: "988px"}}>
+                        <input type="search" className="form-control w-50" id="Movie" placeholder="Начните вводть название фильма" value={keyword} onChange={handleChange} />
                     </div>
-                ))}
-                </div>
-                {totalPages > 1 && (
-                <div className="d-flex justify-content-center mt-4">
-                    <nav>
-                        <ul className="pagination">
-                            {renderPagination()}
-                        </ul>
-                    </nav>
-                </div>
-            )}
+                    <div className="row mt-3">
+                    {results.map(movie => (
+                        <div className="col-md-3 d-flex justify-content-center mb-4" key={movie.id}>
+                            <MoviesPreview 
+                                name={movie.title} 
+                                id={movie.id} 
+                                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                about={movie.overview}
+                                rating={Math.round(movie.vote_average*10)}
+                                addMovie={addMovie}
+                                removeMovie={removeMovie}
+                                isInMovies={isInMovies}
+                            />
+                        </div>
+                    ))}
+                    </div>
+                    {totalPages > 1 && (
+                    <div className="d-flex justify-content-center mt-4">
+                        <nav>
+                            <ul className="pagination">
+                                {renderPagination()}
+                            </ul>
+                        </nav>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

@@ -47,17 +47,17 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
     };
 
     return (
-        <div key={id} id={id}  className='card m-2' style={{cursor: "pointer", width: "14rem", height: "28rem", overflow: "hidden" }}> 
+        <div key={id} id={id}  className='card m-2' style={{cursor: "pointer", width: "14rem", height: "30rem", overflow: "hidden" }}> 
             <img src={image} onError={handleImageError} className="card-img-top" alt={name}/>
             <div className="card-body d-flex justify-content-between align-items-center">
-                <p className="card-title" style={{overflow: "hidden",  textOverflow: "ellipsis",  width: "75%"}}>
+                <p className="card-title" style={{overflow: "hidden",  textOverflow: "ellipsis",  width: "100%"}}>
                     {name}
-                </p>
-            <button onClick={handleSeeInTmdb}>See in tmdb</button>     
-            <button onClick={handleButtonClick}>
-                    {isAdded ? "Delete" : "Add"}
-            </button>                                         
-            </div>
+                </p>                                                     
+            </div>                
+            <button onClick={handleButtonClick} className="btn btn-primary">
+                    {isAdded ? "Удалить" : "Добавить"}
+            </button>
+            <button onClick={handleSeeInTmdb} className="btn btn-secondary mt-1">Открыть в TMBD</button>
         </div>
     );
 }

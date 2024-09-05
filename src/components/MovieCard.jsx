@@ -69,7 +69,6 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                     justifyContent: 'center', 
                     alignItems: 'center', 
                     height: '20rem',
-                    backgroundColor: "#8080804a"
                 }}
             >
                 <img 
@@ -80,16 +79,17 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                         maxWidth: '100%', 
                         objectFit: 'cover' 
                     }}
+                    className="mt-4"
                 />
             </div>
             <div 
                 className="d-flex justify-content-between"  
                 style={{
-                  position: 'absolute', // Absolute positioning for the icons
+                  position: 'absolute',
                   opacity: isHovered ? 1 : 0, 
                   transition: "opacity 0.3s ease",
                   zIndex: 10,
-                  backgroundColor: "#ffffff9c",
+                  backgroundColor: "#ffffffd6",
                   width: "100%"
               }}
             >  
@@ -108,10 +108,10 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                 
             </div>  
             <div 
-                className="card-body d-flex justify-content-between align-items-center"
+                className="card-body d-flex justify-content-between align-items-center p-0 "
             >
                 <h5 
-                    className="card-title" 
+                    className="card-title mt-4 ms-3" 
                         style={{
                             overflow: "hidden", 
                             whiteSpace: "nowrap", 
@@ -123,7 +123,7 @@ const MovieCard = ({movie, onDelete, onToggleLike}) => {
                 </h5>                     
                 <img
                     src={isLiked ? redHeart : heart}
-                    className="bi bi-heart"
+                    className="bi bi-heart mt-4 me-3"
                     alt="heart"
                     onClick={toggleHeart}
                         style={{ cursor: "pointer" }}

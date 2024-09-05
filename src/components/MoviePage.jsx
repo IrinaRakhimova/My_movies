@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import placeholder from "../film_placeholder.png";
+import arrow from "../arrow.svg";
 
 function MoviePage({ movies }) {
 
@@ -14,11 +15,15 @@ function MoviePage({ movies }) {
 
     return (
         <div className="container">
-            <h1 className="my-2">{movie.name}</h1>
-            <img src={movie.image || placeholder} alt={movie.name} />
-            <p>{movie.about}</p>
-            <p>Rating: {movie.rating}%</p>
-            <button className="btn btn-secondary" onClick={handleClick}>Main page</button>
+            <button className="btn btn-secondary mt-2" onClick={handleClick} style={{backgroundColor: "white", border: "none", color: "#0d6efd"}}><img src={arrow}/> Главная страница</button>
+            <h1 className="my-2 mt-2 text-center">{movie.name}</h1>
+            <div className='d-flex mt-3'>
+                <img src={movie.image || placeholder} alt={movie.name} style={{ height: "30rem"}}/>
+                <div className='mx-5'>
+                    <p>{movie.about}</p>
+                    <p className="fw-bolder">Rating: {movie.rating}%</p>
+                </div>
+            </div>
         </div>
     );
 }
