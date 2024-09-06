@@ -59,8 +59,10 @@ function EditMovie({ movies, setMovies }) {
             <button className="btn btn-secondary mx-5 mt-2" onClick={handleClick} style={{backgroundColor: "white", border: "none", color: "#0d6efd"}}><img src={arrow}/> Главная страница</button>           
             <h1 className="text-center mt-4">Редактировать</h1>
             {movie && (
-                <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4 d-flex" style={{height: "300px"}}>
-                    <img src={movieFile}/>
+                <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4 d-flex form" style={{height: "300px"}}>
+                    <div className='image-container'>
+                        <img src={movieFile} className='image'/>
+                    </div>
                     <div className='w-100 ms-5'>
                         <div className="row mb-3">
                             <label for="Name" className="col-sm-2 col-form-label">Название</label>
@@ -88,7 +90,7 @@ function EditMovie({ movies, setMovies }) {
                             </div>                        
                         </div>
                         <div className="d-flex justify-content-center flex-column align-items-end">
-                            <button type="submit" className="btn btn-primary w-25 mt-3">Сохранить</button>
+                            <button type="submit" className="btn btn-primary mt-3" style={{width: "140px"}}>Сохранить</button>
                         </div>
                     </div>
                 </form>

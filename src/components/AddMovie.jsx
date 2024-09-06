@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import MoviesPreview from "./MoviesPreview";
+import left from "../left.svg";
+import right from "../right.svg";
 
-function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
+function AddMovie({ addMovie, removeMovie, isInMovies }) {
     const tmdbKey = '8fdcec10b06a580073073c04bcb6bad2';
     const tmdbBaseUrl = 'https://api.themoviedb.org/3';
-    const ITEMS_PER_PAGE = 24;
     const MAX_PAGE_BUTTONS = 15;
 
     const [keyword, setKeyword] = useState("");
@@ -23,7 +24,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
             .then(data => {
                 setTotalPages(data.total_pages);
                 setNoResults(data.results.length === 0);
-                return data.results;               
+                return data.results;
             });
     };
 
@@ -43,7 +44,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
     };
 
     const handlePageChange = (page) => {
-        if (page < 1 || page > totalPages) return; 
+        if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
         fetchMovies(keyword, page).then((newResults) => {
             setResults(newResults);
@@ -69,7 +70,7 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
             <>
                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-                        Предидущая
+                        <img src={left} />
                     </button>
                 </li>
                 {totalPages > MAX_PAGE_BUTTONS && (
@@ -88,51 +89,59 @@ function AddMovie({ addMovie, setMovies, removeMovie, isInMovies }) {
                 {totalPages <= MAX_PAGE_BUTTONS && pages}
                 <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-                        Следующая
+                        <img src={right} />
                     </button>
                 </li>
             </>
         );
     };
+
     return (
-            <div className="row mb-3 container">
-                <div className="mx-5">
-                    
-                    <div className="col-sm-10 mt-4 d-flex flex-column justify-content-center align-items-center" style={{width: "1200px"}}>
+        <div className="container">
+            <div className="row mb-3">
+                <div className="me-5 pe-3 w-100">
+                    <div className="col-sm-10 mt-4 d-flex flex-column justify-content-center align-items-center w-100">
                         <h1 className="text-center mt-4">Найти фильм</h1>
-                        <input type="search" className="form-control w-50 mt-3" id="Movie" placeholder="Начните вводть название фильма" value={keyword} onChange={handleChange} />
+                        <input
+                            type="search"
+                            className="form-control w-50 mt-3"
+                            id="Movie"
+                            placeholder="Начните вводить название фильма"
+                            value={keyword}
+                            onChange={handleChange}
+                        />
                         {noResults && (
-                        <div className="text-center mt-3" style={{ color: "red" }}>
-                            Список пуст. Введите другой запрос.
-                        </div>
+                            <div className="text-center mt-3" style={{ color: "red" }}>
+                                Список пуст. Введите другой запрос.
+                            </div>
                         )}
                     </div>
-                    
-                    <div className="row mt-3">
-                    {results.map(movie => (
-                        <div className="col-md-3 d-flex justify-content-center mb-4" key={movie.id}>
-                            <MoviesPreview 
-                                name={movie.title} 
-                                id={movie.id} 
+
+                    {/* Add Bootstrap Grid Gap */}
+                    <div className="row justify-content-center g-3 mt-3">
+                        {results.map((movie) => (
+                            <MoviesPreview
+                                key={movie.id}
+                                name={movie.title}
+                                id={movie.id}
                                 image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                 about={movie.overview}
-                                rating={Math.round(movie.vote_average*10)}
+                                rating={Math.round(movie.vote_average * 10)}
                                 addMovie={addMovie}
                                 removeMovie={removeMovie}
                                 isInMovies={isInMovies}
                             />
-                        </div>
-                    ))}
+                        ))}
                     </div>
+
                     {totalPages > 1 && (
-                    <div className="d-flex justify-content-center mt-4">
-                        <nav>
-                            <ul className="pagination">
-                                {renderPagination()}
-                            </ul>
-                        </nav>
-                    </div>
-                )}
+                        <div className="d-flex justify-content-center mt-4">
+                            <nav>
+                                <ul className="pagination">{renderPagination()}</ul>
+                            </nav>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

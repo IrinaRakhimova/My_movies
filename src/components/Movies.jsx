@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
+import "../App.css";
+import left from "../left.svg";
+import right from "../right.svg";
 
 const ITEMS_PER_PAGE = 9;
+const MAX_PAGE_BUTTONS = 15;
 
 function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
 
@@ -74,13 +78,58 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
         setFilterMessage("");
       }
   };
+
+  const renderPagination = () => {
+    let pages = [];
+    let startPage = 1;
+    let endPage = Math.min(totalPages, MAX_PAGE_BUTTONS);
+
+    for (let i = startPage; i <= endPage; i++) {
+        pages.push(
+            <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(i)}>
+                    {i}
+                </button>
+            </li>
+        );
+    }
+
+    return (
+        <>
+            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
+                    <img src={left} />
+                </button>
+            </li>
+            {totalPages > MAX_PAGE_BUTTONS && (
+                <>
+                    {pages}
+                    <li className="page-item">
+                        <span className="page-link">...</span>
+                    </li>
+                    <li className="page-item">
+                        <button className="page-link" onClick={() => handlePageChange(totalPages)}>
+                            {totalPages}
+                        </button>
+                    </li>
+                </>
+            )}
+            {totalPages <= MAX_PAGE_BUTTONS && pages}
+            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
+                    <img src={right} />
+                </button>
+            </li>
+        </>
+    );
+};
     
     return (
       <div>
         <Navbar setSearchQuery={setSearchQuery} setMessage={setMessage} showFavorites={showFavorites} setShowFavorites={setShowFavorites} setCurrentPage={setCurrentPage}/>                     
         <main className="container">
-          <div className="d-flex justify-content-end mt-3 me-3">
-              <select className="form-select me-5" aria-label="Rating" onChange={handleRatingChange} style={{ width: "13rem", cursor: "pointer" }}>
+          <div className="d-flex justify-content-end mt-3" id="rating-container">
+              <select className="form-select rating" aria-label="Rating" onChange={handleRatingChange} style={{ width: "13rem", cursor: "pointer" }}>
                   <option selected value="all">Любой рейтинг</option>
                   <option value="80-100">Рейтинг 80-100%</option>
                   <option value="60-80">Рейтинг 60-80%</option>
@@ -99,25 +148,13 @@ function Movies({ movies, setMovies, searchQuery, setSearchQuery }) {
                     </div>
                 ))}
             </div>
-            <div className="d-flex justify-content-center mt-4">
-                    <nav>
-                        <ul className="pagination">
-                            {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
-                                <li 
-                                    key={page} 
-                                    className={`page-item ${currentPage === page ? 'active' : ''}`}
-                                >
-                                    <button 
-                                        className="page-link" 
-                                        onClick={() => handlePageChange(page)}
-                                    >
-                                        {page}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                </div>
+            {totalPages > 1 && (
+                        <div className="d-flex justify-content-center mt-4">
+                            <nav>
+                                <ul className="pagination">{renderPagination()}</ul>
+                            </nav>
+                        </div>
+            )}
         </main>
     </div>
   );

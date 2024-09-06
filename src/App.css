@@ -7,3 +7,104 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.rating {
+  margin-right: 62px;
+}
+
+@media screen and (max-width: 1400px) {
+  .rating {
+    margin-right: 32px;
+  }
+
+  #add-button {
+    margin-right: 30px !important;
+  }
+
+  .image {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .rating {
+    margin-right: 8px;
+  }
+  .image {
+    width: 150px;
+  }
+} 
+
+@media screen and (max-width: 985px) {
+  .navbar-brand {
+    display: none;
+  }
+
+  .container-fluid {
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .me-5.navigation {
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .navigation{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #nav-button {
+    margin: 10px 0 !important;
+  }
+
+  #nav-input {
+    margin: 0 !important;
+  }
+
+  #rating-container {
+    justify-content: center !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #add-button-container {
+    align-items: center !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #add-button {
+    margin-right: 0 !important;
+  }
+  .field {
+    justify-content: center;
+  }
+
+  #add-button-container {
+    margin-right: 8px !important;
+  }
+}
+
+@media screen and (max-width: 1201px) and (min-width: 992px) {
+  #add-button {
+    margin-right: 5px !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .form {
+    flex-direction: column;
+  }
+  .image-container {
+    display: flex;
+    justify-content: center;
+  }
+  .image {
+    width: 200px;
+    margin-left: 48px;
+    margin-bottom: 20px;
+  }
+}
