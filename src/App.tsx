@@ -1,108 +1,139 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import './App.css';
 import Movies from './components/Movies';
 import MoviePage from "./components/MoviePage";
 import Create from "./components/Create";
 import EditMovie from "./components/EditMovie";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Movie } from './types';
 
-function App() { 
-  const [movies, setMovies] = useState([
+const App: React.FC = () => { 
+  const [movies, setMovies] = useState<Movie[]>([
     { id: 808, 
       name: "Шрэк", 
       about: "Жил да был в сказочном государстве большой зеленый великан по имени Шрэк. Жил он в гордом одиночестве в лесу, на болоте, которое считал своим. Но однажды злобный коротышка - лорд Фаркуад, правитель волшебного королевства, безжалостно согнал на Шрэково болото всех сказочных обитателей. И беспечной жизни зеленого тролля пришел конец. Но лорд Фаркуад пообещал вернуть Шреку болото, если великан добудет ему прекрасную принцессу Фиону , которая томится в неприступной башне, охраняемой огнедышащим драконом...", 
       image: "https://image.tmdb.org/t/p/w500/oQh2HpAXRIr2ZCSmYuH8NIMRxyP.jpg",
-      rating: 77 },
+      rating: 77,
+      isLiked: false },
     { id: 120, 
       name: "Властелин колец: Братство кольца", 
       about: "Сказания о Средиземье - это хроника Великой войны за Кольцо, длившейся не одну тысячу лет. Тот, кто владел Кольцом, получал неограниченную власть, но был обязан служить злу. Тихая деревня, где живут хоббиты. Придя на 111-й день рождения к своему старому другу Бильбо Бэггинсу, волшебник Гэндальф начинает вести разговор о кольце, которое Бильбо нашел много лет назад. Это кольцо принадлежало когда-то темному властителю Средиземья Саурону, и оно дает большую власть своему обладателю. Теперь Саурон хочет вернуть себе власть над Средиземьем. Бильбо отдает Кольцо племяннику Фродо, чтобы тот отнёс его к Роковой Горе и уничтожил.", 
       image: "https://image.tmdb.org/t/p/w500/lxaDSQCLsMRRbp4UsfvsxzOq1OB.jpg",
-      rating: 84 },
+      rating: 84,
+      isLiked: false },
     { id: 27205, 
       name: "Начало", 
       about: "Дом Кобб — талантливый вор, лучший из лучших в опасном искусстве извлечения: он крадёт ценные секреты из глубин подсознания во время сна, когда человеческий разум наиболее уязвим. Редкие способности Кобба сделали его ценным игроком в привычном к предательству мире промышленного шпионажа, но они же превратили его в извечного беглеца и лишили всего, что он когда-либо любил.  И вот у Кобба появляется шанс исправить ошибки. Его последнее дело может вернуть всё назад, но для этого ему нужно совершить невозможное — инициацию. Вместо идеальной кражи Кобб и его команда спецов должны будут провернуть обратное. Теперь их задача — не украсть идею, а внедрить её. Если у них получится, это и станет идеальным преступлением.  Но никакое планирование или мастерство не могут подготовить команду к встрече с опасным противником, который, кажется, предугадывает каждый их ход. Врагом, увидеть которого мог бы лишь Кобб.", 
       image: "https://image.tmdb.org/t/p/w500/ubj7fEmtNqxwtZtMk6wAIc0SCFJ.jpg",
-      rating: 84 },
+      rating: 84,
+      isLiked: false },
       { id: 18785, 
       name: "Мальчишник в Вегасе", 
       about: "Они мечтали устроить незабываемый мальчишник в Вегасе. Но теперь им действительно необходимо вспомнить, что именно происходило! Чей ребенок сидит в шкафу шикарного номера отеля? Как в ванную попал тигр? Почему у одного из них нет зуба? И, самое главное, куда делся жених?! То, что парни вытворяли на вечеринке, не идет ни в какое сравнение с тем, что им придется сделать на трезвую голову, когда они будут шаг за шагом восстанавливать события прошлой ночи, каждый раз — новая зацепка.", 
       image: "https://image.tmdb.org/t/p/w500/4uNzdC5UT7YfVTSADDq93r4717S.jpg",
-      rating: 73 },
+      rating: 73,
+      isLiked: false },
     { id: 676685, 
       name: "Приключения панды", 
       about: "Молодой авантюрный панда отправляется из Китая в Африку, чтобы спасти своего лучшего друга, дракона Цзиелонга, которого похитили. В своем путешествии он открывает для себя странный, удивительный новый мир гор, пустынь и джунглей.", 
       image: "https://image.tmdb.org/t/p/w500/7LjF2XCHODS8WEmFoxsF4aYSlAR.jpg",
-      rating: 33 },
+      rating: 33,
+      isLiked: false },
     { id: 23172, 
       name: "Шпион по соседству", 
       about: "Агент Боб Хо обезвреживал террористов, ниспровергал диктаторов и крушил целые империи зла, но теперь его ждет самое сложное задание за всю карьеру — на один вечер он должен стать нянькой. Здесь он снова использует профессиональную подготовку и уникальные навыки, однако скоро Боба ждут большие неприятности.", 
       image: "https://image.tmdb.org/t/p/w500/bzu1l5duZ7L1XJITxZzeNfzFetj.jpg",
-      rating: 59 },
+      rating: 59,
+      isLiked: false },
       { id: 10327, 
       name: "Блондинка в законе 2: Красное, белое и блондинка", 
       about: "Завоевав в первом фильме Гарвард, Элли Вудс занимает теперь должность юриста в крупной фирме и совмещает успешную карьеру с приготовлениями к свадьбе. Пока не узнаёт, что мамочку её любимого пёсика Великана используют для опытов в косметической промышленности клиенты её же фирмы. Элли поднимается на борьбу за права животных и… вылетает с работы. Конечно, она подавлена и возмущена, но её знаменитый оптимизм остаётся при ней. Мисс Вудс отправляется в Вашингтон, чтобы взять дело в свои наманикюренные ручки.", 
       image: "https://image.tmdb.org/t/p/w500/bkkpI8OeT8yp0ZqmigeGcGJNRDl.jpg",
-      rating: 57 },
+      rating: 57,
+      isLiked: false },
     { id: 1927, 
       name: "Халк", 
       about: "Доктор Брюс Бэннер (ученый, работающий над изобретением новой бомбы) подвергся воздействию гамма-лучей и превратился в Халка — существо невероятной физической силы, которое в состоянии ярости становится огромным зеленым монстром.Его преследуют военные под предводительством генерала Росса, ему приходится бежать через всю страну. В конце концов, у него возникает любовная история с генеральской дочкой Бетти…", 
       image: "https://image.tmdb.org/t/p/w500/vezFYjkl6PdKSZKkurCfN33ycbU.jpg",
-      rating: 55 },
+      rating: 55,
+      isLiked: false },
     { id: 313106, 
       name: "День Доктора", 
       about: "В 2013 году что-то ужасное пробуждается в Национальной галерее Лондона; в 1562 году смертельный заговор зреет в елизаветинской Англии; а где-то в космосе многовековая битва достигает сокрушительного заключения.", 
       image: "https://image.tmdb.org/t/p/w500/2392gRpqhSroAh6Xkj7p8m8fbZW.jpg",
-      rating: 82 },
+      rating: 82,
+      isLiked: false },
       { id: 603, 
       name: "Матрица", 
       about: "Жизнь Томаса Андерсона разделена на две части: днём он — самый обычный офисный работник, получающий нагоняи от начальства, а ночью превращается в хакера по имени Нео, и нет места в сети, куда он бы не смог проникнуть. Но однажды всё меняется. Томас узнаёт ужасающую правду о реальности.", 
       image: "https://image.tmdb.org/t/p/w500/28CIJk2teXWGsnUyVO6E77XpTOM.jpg",
-      rating: 82 },
+      rating: 82,
+      isLiked: false },
     { id: 671, 
       name: "Гарри Поттер и философский камень", 
       about: "Обычный лондонский мальчик Гарри Поттер на 11-м году жизни узнаёт, что он — осиротевший сын двух могущественных волшебников, и сам обладает магической силой. В Хогвартской школе чародейства и волшебства Гарри попадает в водоворот невероятных приключений. Он изучает квиддич — спорт высшего пилотажа, играет в захватывающую игру живыми шахматными фигурами, встречается с Тёмным Волшебником, который хочет его уничтожить.", 
       image: "https://image.tmdb.org/t/p/w500/q3LZNzwW7ZWu4kSFIPGcB5CYFE4.jpg",
-      rating: 79 },
+      rating: 79,
+      isLiked: false },
     { id: 438631, 
       name: "Дюна", 
       about: "Наследник знаменитого дома Атрейдесов Пол отправляется вместе с семьей на одну из самых опасных планет во Вселенной — Арракис. Здесь нет ничего, кроме песка, палящего солнца, гигантских чудовищ и основной причины межгалактических конфликтов — невероятно ценного ресурса, который называется меланж. В результате захвата власти Пол вынужден бежать и скрываться, и это становится началом его эпического путешествия. Враждебный мир Арракиса приготовил для него множество тяжелых испытаний, но только тот, кто готов взглянуть в глаза своему страху, достоин стать избранным.", 
       image: "https://image.tmdb.org/t/p/w500/3hbXNclcHaj5KiF6kK41GBMjyFr.jpg",
-      rating: 78 },    
+      rating: 78,
+      isLiked: false },    
     
   ]);
   
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const addMovie = (newMovie) => {
+  const addMovie = (newMovie: Movie): void => {
     setMovies([newMovie, ...movies]);
   };
 
-  const removeMovie = (id) => {
+  const removeMovie = (id: number): void => {
     setMovies(movies.filter(movie => movie.id !== id));
-};
+  };
 
-  const isInMovies = (id) => {
+  const isInMovies = (id: number): boolean => {
     return movies.some(movie => movie.id === id);
   };
 
-
-
-  const router = createBrowserRouter(createRoutesFromElements(
-      <>
-          <Route path="products" element={ <Movies movies={movies} setMovies={setMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> } />
-          <Route path="products/:id" element={ <MoviePage movies={movies} /> }/>
-          <Route path="products/create" element={ <Create addMovie={addMovie} removeMovie={removeMovie} isInMovies={isInMovies} /> }/>
-          <Route path="products/edit/:id" element={ <EditMovie movies={movies} setMovies={setMovies} /> } />
-          
-      </>
-  ));
-
-
-    return (
-      <RouterProvider router={ router } />
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/products" 
+          element={
+            <Movies 
+              movies={movies} 
+              setMovies={setMovies} 
+              searchQuery={searchQuery} 
+              setSearchQuery={setSearchQuery} 
+            />
+          } 
+        />
+        <Route 
+          path="/products/:id" 
+          element={<MoviePage movies={movies} />} 
+        />
+        <Route 
+          path="/products/create" 
+          element={
+            <Create 
+              addMovie={addMovie} 
+              removeMovie={removeMovie} 
+              isInMovies={isInMovies} 
+            />
+          } 
+        />
+        <Route 
+          path="/products/edit/:id" 
+          element={<EditMovie movies={movies} setMovies={setMovies} />} 
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

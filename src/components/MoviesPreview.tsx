@@ -1,7 +1,37 @@
+import React from "react";
 import placeholder from "../film_placeholder.png";
 import { useState, useEffect } from "react";
 
-function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, isInMovies }) {
+interface Movie {
+    id: number;
+    name: string;
+    about: string;
+    image?: string;
+    rating: number;
+    isLiked: boolean;
+}
+
+interface MoviesPreviewProps {
+    name: string;
+    id: number;
+    image?: string;
+    about: string;
+    rating: number;
+    addMovie: (movie: Movie) => void;
+    removeMovie: (id: number) => void;
+    isInMovies: (id: number) => boolean;
+}
+
+const MoviesPreview: React.FC<MoviesPreviewProps> = ({
+    name,
+    id,
+    image,
+    about,
+    rating,
+    addMovie,
+    removeMovie,
+    isInMovies,
+}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const [isAdded, setIsAdded] = useState(() => {
@@ -10,7 +40,7 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
     });
 
     useEffect(() => {
-        localStorage.setItem(`isAdded_${id}`, isAdded);
+        localStorage.setItem(`isAdded_${id}`, String(isAdded));
     }, [isAdded, id]);
 
     useEffect(() => {
@@ -23,7 +53,7 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
         if (isAdded) {
             removeMovie(id);
         } else {
-            const newMovie = {
+            const newMovie: Movie = {
                 id: id,
                 name: name,
                 about: about,
@@ -36,8 +66,8 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
         setIsAdded(!isAdded);
     };
 
-    const handleImageError = (e) => {
-        e.target.src = placeholder;
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = placeholder;
     };
 
     const handleSeeInTmdb = () => {
@@ -49,24 +79,24 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center mb-4 flex-column">
             <div
                 key={id}
-                id={id}
+                id={id.toString()}
                 className="card m-2"
                 style={{
                     cursor: "pointer",
                     overflow: "hidden",
                     position: "relative",
                     width: "100%",
-                    height: "25rem",  // Set fixed height
+                    height: "25rem",
                 }}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
                 <img
-                    src={image}
+                    src={image || placeholder}
                     onError={handleImageError}
                     className="card-img-top"
                     alt={name}
-                    style={{ height: "100%", width: "100%", objectFit: "cover" }} // Image fills 60% of the card
+                    style={{ height: "100%", width: "100%", objectFit: "cover" }}
                 />
                 <div
                     style={{
@@ -131,6 +161,6 @@ function MoviesPreview({ name, id, image, about, rating, addMovie, removeMovie, 
             </p>
         </div>
     );
-}
+};
 
 export default MoviesPreview;

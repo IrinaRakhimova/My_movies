@@ -1,34 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import MoviesPreview from "./MoviesPreview";
 import left from "../left.svg";
 import right from "../right.svg";
+import React from "react";
 
-function AddMovie({ addMovie, removeMovie, isInMovies }) {
+// Define types for the movie data and props
+interface Movie {
+    id: number;
+    title: string;
+    poster_path: string;
+    overview: string;
+    vote_average: number;
+}
+
+interface AddMovieProps {
+    addMovie: (movie: any) => void;
+    removeMovie: (id: number) => void;
+    isInMovies: (id: number) => boolean;
+}
+
+function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
     const tmdbKey = '8fdcec10b06a580073073c04bcb6bad2';
     const tmdbBaseUrl = 'https://api.themoviedb.org/3';
     const MAX_PAGE_BUTTONS = 15;
 
-    const [keyword, setKeyword] = useState("");
-    const [results, setResults] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [noResults, setNoResults] = useState(false);
+    const [keyword, setKeyword] = useState<string>("");
+    const [results, setResults] = useState<Movie[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    const [noResults, setNoResults] = useState<boolean>(false);
 
-    const options = { method: 'GET', headers: { accept: 'application/json' } };
+    const options: RequestInit = { method: 'GET', headers: { accept: 'application/json' } };
 
-    const fetchMovies = (searchTerm, pageNumber) => {
+    const fetchMovies = async (searchTerm: string, pageNumber: number): Promise<Movie[]> => {
         const requestParams = `?api_key=${tmdbKey}&query=${searchTerm}&page=${pageNumber}&language=ru`;
+        const response = await fetch(`${tmdbBaseUrl}/search/movie${requestParams}`, options);
+        const data = await response.json();
 
-        return fetch(`${tmdbBaseUrl}/search/movie${requestParams}`, options)
-            .then(response => response.json())
-            .then(data => {
-                setTotalPages(data.total_pages);
-                setNoResults(data.results.length === 0);
-                return data.results;
-            });
+        setTotalPages(data.total_pages);
+        setNoResults(data.results.length === 0);
+
+        return data.results;
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newKeyword = e.target.value;
         setKeyword(newKeyword);
         setCurrentPage(1);
@@ -43,7 +58,7 @@ function AddMovie({ addMovie, removeMovie, isInMovies }) {
         }
     };
 
-    const handlePageChange = (page) => {
+    const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
         fetchMovies(keyword, page).then((newResults) => {
@@ -52,7 +67,7 @@ function AddMovie({ addMovie, removeMovie, isInMovies }) {
     };
 
     const renderPagination = () => {
-        let pages = [];
+        let pages: JSX.Element[] = [];
         let startPage = 1;
         let endPage = Math.min(totalPages, MAX_PAGE_BUTTONS);
 
@@ -70,7 +85,7 @@ function AddMovie({ addMovie, removeMovie, isInMovies }) {
             <>
                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-                        <img src={left} />
+                        <img src={left} alt="Previous" />
                     </button>
                 </li>
                 {totalPages > MAX_PAGE_BUTTONS && (
@@ -89,7 +104,7 @@ function AddMovie({ addMovie, removeMovie, isInMovies }) {
                 {totalPages <= MAX_PAGE_BUTTONS && pages}
                 <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                     <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-                        <img src={right} />
+                        <img src={right} alt="Next" />
                     </button>
                 </li>
             </>
