@@ -5,7 +5,7 @@ import MoviePage from "./components/MoviePage";
 import Create from "./components/Create";
 import EditMovie from "./components/EditMovie";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { Movie } from './types';
 
 const App: React.FC = () => { 
