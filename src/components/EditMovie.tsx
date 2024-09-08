@@ -1,15 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import arrow from "../arrow.svg";
-
-// Define the types for props and movie object
-interface Movie {
-    id: number;
-    name: string;
-    about: string;
-    image: string;
-    rating: number;
-}
+import arrow from "../images/arrow.svg";
+import { Movie } from "../types";
 
 interface EditMovieProps {
     movies: Movie[];

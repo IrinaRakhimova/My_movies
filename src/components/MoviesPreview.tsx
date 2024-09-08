@@ -1,15 +1,7 @@
 import React from "react";
-import placeholder from "../film_placeholder.png";
+import placeholder from "../images/film_placeholder.png";
 import { useState, useEffect } from "react";
-
-interface Movie {
-    id: number;
-    name: string;
-    about: string;
-    image?: string;
-    rating: number;
-    isLiked: boolean;
-}
+import { Movie } from "../types";
 
 interface MoviesPreviewProps {
     name: string;

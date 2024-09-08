@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import plus from "../plus.svg";
-import heart from "../heart_small.svg";
+import plus from "../images/plus.svg";
+import heart from "../images/heart_small.svg";
 import "../App.css";
 
-// Define types for the props
 interface NavbarProps {
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
     setMessage: React.Dispatch<React.SetStateAction<string>>;

@@ -1,24 +1,14 @@
 import React, { useState } from "react";
-import placeholder from "../film_placeholder.png";
+import placeholder from "../images/film_placeholder.png";
 import { useNavigate } from "react-router-dom";
 import AddMovie from "./AddMovie";
-import arrow from "../arrow.svg";
+import arrow from "../images/arrow.svg";
+import { Movie } from "../types";
 
-// Define types for the props
 interface CreateProps {
   addMovie: (movie: Movie) => void;
   removeMovie: (id: number) => void;
   isInMovies: (id: number) => boolean;
-}
-
-// Define the type for the movie object
-interface Movie {
-  id: number;
-  name: string;
-  about: string;
-  image: string | ArrayBuffer | null;
-  rating: number;
-  isLiked: boolean;
 }
 
 const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) => {
@@ -63,7 +53,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
     setMovieName("");
     setMovieAbout("");
     setMovieFile(null);
-    setMovieRating(50); // Reset to default value
+    setMovieRating(50); 
     setMessage(`Добавлен фильм: ${movieName}`);
   };
 

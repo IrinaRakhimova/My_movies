@@ -1,16 +1,8 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import placeholder from "../film_placeholder.png";
-import arrow from "../arrow.svg";
-
-// Define types for the props and movie object
-interface Movie {
-    id: number;
-    name: string;
-    about: string;
-    image?: string;
-    rating: number;
-}
+import placeholder from "../images/film_placeholder.png";
+import arrow from "../images/arrow.svg";
+import { Movie } from "../types";
 
 interface MoviePageProps {
     movies: Movie[];

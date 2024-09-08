@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
 import "../App.css";
-import left from "../left.svg";
-import right from "../right.svg";
+import left from "../images/left.svg";
+import right from "../images/right.svg";
 import { Movie } from '../types';
 
 interface MoviesProps {

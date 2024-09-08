@@ -1,20 +1,12 @@
 import { useState, useEffect, MouseEvent, MouseEventHandler } from "react";
 import { useNavigate } from "react-router-dom";
-import placeholder from "../film_placeholder.png";
-import heart from "../heart.svg";
-import redHeart from "../red_heart.svg";
-import bin from "../bin.svg";
-import edit from "../edit.svg";
+import placeholder from "../images/film_placeholder.png";
+import heart from "../images/heart.svg";
+import redHeart from "../images/red_heart.svg";
+import bin from "../images/bin.svg";
+import edit from "../images/edit.svg";
 import React from "react";
-
-// Define types for the props
-interface Movie {
-    id: number;
-    name: string;
-    about: string;
-    image?: string;
-    isLiked?: boolean;
-}
+import { Movie } from "../types";
 
 interface MovieCardProps {
     movie: Movie;

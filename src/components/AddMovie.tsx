@@ -1,10 +1,8 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState,  ChangeEvent } from "react";
 import MoviesPreview from "./MoviesPreview";
-import left from "../left.svg";
-import right from "../right.svg";
-import React from "react";
+import left from "../images/left.svg";
+import right from "../images/right.svg";
 
-// Define types for the movie data and props
 interface Movie {
     id: number;
     title: string;
@@ -20,7 +18,7 @@ interface AddMovieProps {
 }
 
 function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
-    const tmdbKey = '8fdcec10b06a580073073c04bcb6bad2';
+    const tmdbKey = process.env.REACT_APP_API_KEY;
     const tmdbBaseUrl = 'https://api.themoviedb.org/3';
     const MAX_PAGE_BUTTONS = 15;
 
@@ -80,7 +78,6 @@ function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
                 </li>
             );
         }
-
         return (
             <>
                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
@@ -131,8 +128,6 @@ function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
                             </div>
                         )}
                     </div>
-
-                    {/* Add Bootstrap Grid Gap */}
                     <div className="row justify-content-center g-3 mt-3">
                         {results.map((movie) => (
                             <MoviesPreview
@@ -148,7 +143,6 @@ function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
                             />
                         ))}
                     </div>
-
                     {totalPages > 1 && (
                         <div className="d-flex justify-content-center mt-4">
                             <nav>
