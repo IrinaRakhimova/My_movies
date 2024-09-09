@@ -83,6 +83,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               id="Name"
               value={movieName}
               onChange={(e) => setMovieName(e.target.value)}
+              maxLength={500} 
               required
             />
           </div>
@@ -97,6 +98,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               id="About"
               value={movieAbout}
               onChange={(e) => setMovieAbout(e.target.value)}
+              maxLength={5000} 
               required
             />
           </div>
@@ -110,6 +112,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               className="form-control"
               type="file"
               id="formFile"
+              accept="image/*"
               onChange={handleFileChange}
             />
           </div>

@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchQuery, setMessage, setShowFavo
         <>
             <nav className="navbar sticky-top" style={{ width: "100%", backgroundColor: "black" }}>
                 <div className="container-fluid" style={{ maxWidth: "1290px" }}>
-                    <a href="#" className="navbar-brand new-amsterdam-regular fs-1 ms-5" style={{ color: "white" }}>My movies</a>
+                    <a href="/My_movies/#/products" className="navbar-brand new-amsterdam-regular fs-1 ms-5" style={{ color: "white" }}>My movies</a>
                     <div className="d-flex me-5 navigation">
                         <button type="button" className="btn btn-primary" onClick={handleClick} style={{ width: "13rem" }}>
                             <img src={plus} className="mb-1" alt="Add" /> Добавить фильм

@@ -147,7 +147,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onDelete, onToggleLike }) 
                     style={{
                         textOverflow: "ellipsis",
                         display: "-webkit-box",
-                        WebkitLineClamp: 4,
+                        WebkitLineClamp: 3,
                         WebkitBoxOrient: "vertical",
                         overflow: 'hidden',
                         marginBottom: '0'
@@ -155,24 +155,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onDelete, onToggleLike }) 
                 >
                     {movie.about}
                 </p>
-                {isOverflowed && (
-                    <a
-                        href="#"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/products/${movie.id}`);
-                        }}
-                        style={{
-                            position: 'absolute',
-                            bottom: '0',
-                            right: '0',
-                            backgroundColor: 'white',
-                            paddingLeft: '5px',
-                        }}
-                    >
-                        ... read more
-                    </a>
-                )}
             </div>
         </div>
     );

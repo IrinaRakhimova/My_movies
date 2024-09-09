@@ -55,6 +55,7 @@ const EditMovie: React.FC<EditMovieProps> = ({ movies, setMovies }) => {
 
         const updatedMovies = movies.map(m => m.id === movie.id ? updatedMovie : m);
         setMovies(updatedMovies);
+        localStorage.setItem("movies", JSON.stringify(updatedMovies));
         navigate(`/products/${movie.id}`);
     };
 
@@ -77,19 +78,19 @@ const EditMovie: React.FC<EditMovieProps> = ({ movies, setMovies }) => {
                         <div className="row mb-3">
                             <label htmlFor="Name" className="col-sm-2 col-form-label">Название</label>
                             <div className="col-sm-10">
-                                <input type="text" className="form-control" id="Name" value={movieName} onChange={(e) => setMovieName(e.target.value)} required />
+                                <input type="text" className="form-control" id="Name" value={movieName} onChange={(e) => setMovieName(e.target.value)} maxLength={500} required />
                             </div>
                         </div>
                         <div className="row mb-3">
                             <label htmlFor="About" className="col-sm-2 col-form-label">Описание</label>
                             <div className="col-sm-10">
-                                <textarea className="form-control" id="About" value={movieAbout} onChange={(e) => setMovieAbout(e.target.value)} required />
+                                <textarea className="form-control" id="About" value={movieAbout} onChange={(e) => setMovieAbout(e.target.value)} maxLength={5000} required />
                             </div>
                         </div>
                         <div className="row mb-3">
                             <label htmlFor="formFile" className="col-sm-2 col-form-label">Поменять постер</label>
                             <div className="col-sm-10">
-                                <input className="form-control" type="file" id="formFile" onChange={handleFileChange} />
+                                <input className="form-control" type="file" accept="image/*" id="formFile" onChange={handleFileChange} />
                             </div>
                         </div>
                         <div className="row mb-3">

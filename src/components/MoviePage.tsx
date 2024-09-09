@@ -36,11 +36,11 @@ const MoviePage: React.FC<MoviePageProps> = ({ movies }) => {
                 <img
                     src={movie.image || placeholder}
                     alt={movie.name}
-                    style={{ height: "30rem" }}
+                    style={{ height: "30rem", maxWidth: "30rem" }}
                 />
                 <div className='mx-5'>
                     <p>{movie.about}</p>
-                    <p className="fw-bolder">Rating: {movie.rating}%</p>
+                    <p className="fw-bolder">Оценка: {movie.rating}%</p>
                 </div>
             </div>
         </div>
