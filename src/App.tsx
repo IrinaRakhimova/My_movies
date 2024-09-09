@@ -100,7 +100,6 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
       <Routes>
         <Route 
           path="/products" 
@@ -132,7 +131,6 @@ const App: React.FC = () => {
           element={<EditMovie movies={movies} setMovies={setMovies} />} 
         />
       </Routes>
-    </Router>
   );
 }
 
