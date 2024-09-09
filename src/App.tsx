@@ -10,7 +10,9 @@ import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { Movie } from './types';
 
 const App: React.FC = () => { 
-  const [movies, setMovies] = useState<Movie[]>([
+    const [movies, setMovies] = useState<Movie[]>(() => {
+        const savedMovies = sessionStorage.getItem('movies');
+        return savedMovies ? JSON.parse(savedMovies) : [
     { id: 808, 
       name: "Шрэк", 
       about: "Жил да был в сказочном государстве большой зеленый великан по имени Шрэк. Жил он в гордом одиночестве в лесу, на болоте, которое считал своим. Но однажды злобный коротышка - лорд Фаркуад, правитель волшебного королевства, безжалостно согнал на Шрэково болото всех сказочных обитателей. И беспечной жизни зеленого тролля пришел конец. Но лорд Фаркуад пообещал вернуть Шреку болото, если великан добудет ему прекрасную принцессу Фиону , которая томится в неприступной башне, охраняемой огнедышащим драконом...", 
@@ -84,7 +86,8 @@ const App: React.FC = () => {
       rating: 78,
       isLiked: false },    
     
-  ]);
+  ]
+});
   
   const [searchQuery, setSearchQuery] = useState<string>("");
 
