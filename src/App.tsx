@@ -11,7 +11,7 @@ import { Movie } from './types';
 
 const App: React.FC = () => { 
     const [movies, setMovies] = useState<Movie[]>(() => {
-        const savedMovies = sessionStorage.getItem('movies');
+        const savedMovies = localStorage.getItem('movies');
         return savedMovies ? JSON.parse(savedMovies) : [
     { id: 808, 
       name: "Шрэк", 
@@ -105,10 +105,6 @@ const App: React.FC = () => {
 
   return (
       <Routes>
-        <Route 
-          path="/" 
-          element={<Welcome />} 
-        />
         <Route 
           path="/products" 
           element={
