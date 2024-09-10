@@ -4,6 +4,7 @@ import Movies from './components/Movies';
 import MoviePage from "./components/MoviePage";
 import Create from "./components/Create";
 import EditMovie from "./components/EditMovie";
+import Welcome from "./components/Welcome";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { Movie } from './types';
@@ -75,6 +76,10 @@ const App: React.FC = () => {
 
   return (
       <Routes>
+        <Route 
+          path="/" 
+          element={<Welcome />} 
+        />
         <Route 
           path="/products" 
           element={
