@@ -140,10 +140,10 @@ const MoviesPreview: React.FC<MoviesPreviewProps> = ({
                     </div>
                     <div className="d-flex flex-column">
                         <button onClick={handleButtonClick} className="btn btn-light mb-2">
-                            {isAdded ? "Удалить" : "Добавить"}
+                            {isAdded ? "Remove" : "Add"}
                         </button>
                         <button onClick={handleSeeInTmdb} className="btn btn-outline-light">
-                            Открыть в TMBD
+                            Open in TMDB
                         </button>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ const MoviePage: React.FC<MoviePageProps> = ({ movies }) => {
     };
 
     const handleClick = () => {
-        navigate('/products');
+        navigate('/');
     };
 
     return (
@@ -29,7 +29,7 @@ const MoviePage: React.FC<MoviePageProps> = ({ movies }) => {
                 onClick={handleClick}
                 style={{ backgroundColor: "white", border: "none", color: "#0d6efd" }}
             >
-                <img src={arrow} alt="Back" /> Главная страница
+                <img src={arrow} alt="Back" /> Main page
             </button>
             <h1 className="my-2 mt-2 text-center">{movie.name}</h1>
             <div className='d-flex mt-3'>
@@ -40,7 +40,7 @@ const MoviePage: React.FC<MoviePageProps> = ({ movies }) => {
                 />
                 <div className='mx-5'>
                     <p>{movie.about}</p>
-                    <p className="fw-bolder">Оценка: {movie.rating}%</p>
+                    <p className="fw-bolder">Rating: {movie.rating}%</p>
                 </div>
             </div>
         </div>

@@ -113,18 +113,18 @@ function AddMovie({ addMovie, removeMovie, isInMovies }: AddMovieProps) {
             <div className="row mb-3">
                 <div className="me-5 pe-3 w-100">
                     <div className="col-sm-10 mt-4 d-flex flex-column justify-content-center align-items-center w-100">
-                        <h1 className="text-center mt-4">Найти фильм</h1>
+                        <h1 className="text-center mt-4">Find a movie</h1>
                         <input
                             type="search"
                             className="form-control w-50 mt-3"
                             id="Movie"
-                            placeholder="Начните вводить название фильма"
+                            placeholder="Start typing the movie title"
                             value={keyword}
                             onChange={handleChange}
                         />
                         {noResults && (
                             <div className="text-center mt-3" style={{ color: "red" }}>
-                                Список пуст. Введите другой запрос.
+                                List is empty. Please enter a different query.
                             </div>
                         )}
                     </div>

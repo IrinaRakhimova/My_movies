@@ -33,7 +33,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onDelete, onToggleLike }) 
 
     const handleEdit: MouseEventHandler<HTMLImageElement> = (e) => {
         e.stopPropagation();
-        navigate(`/products/edit/${movie.id}`);
+        navigate(`/edit/${movie.id}`);
     };
 
     const handleDelete: MouseEventHandler<HTMLImageElement> = (e) => {
@@ -42,7 +42,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onDelete, onToggleLike }) 
     };
 
     const handleCardClick = () => {
-        navigate(`/products/${movie.id}`);
+        navigate(`/${movie.id}`);
     };
 
     useEffect(() => {

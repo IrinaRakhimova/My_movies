@@ -54,11 +54,11 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
     setMovieAbout("");
     setMovieFile(null);
     setMovieRating(50); 
-    setMessage(`Добавлен фильм: ${movieName}`);
+    setMessage(`Movie added: ${movieName}`);
   };
 
   const handleClick = () => {
-    navigate('/products');
+    navigate('/');
   };
 
   return (
@@ -68,13 +68,13 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         onClick={handleClick}
         style={{ backgroundColor: "white", border: "none", color: "#0d6efd" }}
       >
-        <img src={arrow} alt="arrow" /> Главная страница
+        <img src={arrow} alt="arrow" /> Home Page
       </button>
-      <h1 className="text-center mt-4">Добавить свой фильм</h1>
+      <h1 className="text-center mt-4">Add Your Own Movie</h1>
       <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4">
         <div className="row mb-3 field">
           <label htmlFor="Name" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
-            Название
+            Title
           </label>
           <div className="col-sm-10">
             <input
@@ -90,7 +90,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         </div>
         <div className="row mb-3 field">
           <label htmlFor="About" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
-            Описание
+            Description
           </label>
           <div className="col-sm-10">
             <textarea
@@ -105,7 +105,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         </div>
         <div className="row mb-3 field">
           <label htmlFor="formFile" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
-            Постер
+            Poster
           </label>
           <div className="col-sm-10">
             <input
@@ -119,7 +119,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         </div>
         <div className="row mb-3 field">
           <label htmlFor="customRange1" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
-            Оценка
+            Rating
           </label>
           <div className="col-sm-10 d-flex align-items-center">
             <input
@@ -138,7 +138,7 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         </div>
         <div className="d-flex justify-content-center flex-column align-items-end me-5" id="add-button-container">
           <button type="submit" className="btn btn-primary w-25" id="add-button" style={{ minWidth: "100px", marginRight: "58px" }}>
-            Добавить
+            Add
           </button>
           <p className="mt-4 fw-bold text-success" id="add-message" style={{marginRight: "50px"}}>{message}</p>
         </div>
