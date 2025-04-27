@@ -1,6 +1,6 @@
 # My Movies App 🎬
 
-his project is a single-page application (SPA) that displays a list of movies fetched from an API, with functionality to like, delete, create, edit, and filter movies.
+This project is a single-page application (SPA) that displays a list of movies fetched from an API, with functionality to like, delete, create, edit, and filter movies.
 
 You can view the live version of the project [here](https://irinarakhimova.github.io/My_movies/#/).
 
