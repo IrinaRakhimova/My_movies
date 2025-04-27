@@ -1,68 +1,66 @@
-# My Movies App
+# My Movies App 🎬
 
-Этот проект — это одностраничное приложение (SPA), которое отображает список фильмов, загружаемых из API, с возможностью ставить лайки, удалять, создавать, редактировать и фильтровать фильмы.
+his project is a single-page application (SPA) that displays a list of movies fetched from an API, with functionality to like, delete, create, edit, and filter movies.
 
-Вы можете посмотреть рабочую версию проекта [здесь](https://irinarakhimova.github.io/My_movies/#/).
+You can view the live version of the project [here](https://irinarakhimova.github.io/My_movies/#/).
 
-## Основные функции
+## Main Features
 
-### Список продуктов
-- На странице `/` отображается список фильмов.
-- На каждой карточке фильма есть:
-  - **Кнопка лайка** (с иконкой), которая меняет статус лайка и изменяет цвет иконки в зависимости от статуса.
-  - **Кнопка удаления** (с иконкой), которая удаляет фильм из списка.
-  - **Фильтр** для отображения всех фильмов или только фильмов, добавленных в избранное.
-  - **Сортировка** фильмов по рейтингу.
-- Карточки фильмов отображают ограниченное количество текста для обеспечения одинаковой высоты карточек.
-- Клик по любой части карточки (кроме иконок лайка и удаления) открывает страницу с подробной информацией о фильме.
+### Movie List
+- The / page displays a list of movies.
+- The page includes:
+  - **Like buttons** that toggle the like status and change the icon color accordingly.
+  - **Delete buttons** that remove the movie from the list.
+  - A **filter** to show either all movies or only the favorite ones.
+  - **Sorting** movies by rating.
+- Movie cards display a limited amount of text to maintain consistent card heights.
+- Clicking on any part of the card (except for the like and delete icons) opens a detailed page for the movie.
 
-### Страница продукта
-- На странице `/:id` отображается подробная информация о фильме.
-- Добавлена кнопка для возврата на главную страницу со списком продуктов.
+### Movie Detail Page
+- The /:id page shows detailed information about a movie.
+- A button is provided to return to the main movie list page.
 
-### Создание продукта
-- На отдельной странице `/create-product` реализована форма для создания нового фильма.
-  - Форма содержит обязательные поля с базовой валидацией.
-  - После отправки формы данные сохраняются в общем хранилище.
+### Adding Movies
+- On the /create page, you can create your own movie by filling out a form.
+- On the /find page, you can search for an existing movie using the TMDB API and add it to your collection directly.
 
-### Бонусные функции:
-- **Пагинация**: Добавлена возможность переключения страниц со списком фильмов для улучшения навигации.
-- **Редактирование карточки**: Реализована возможность редактировать информацию о фильме.
-- **Дополнительная фильтрация**: Добавлен фильтр для фильмов на основе рейтинга.
-- **Поиск фильмов**: Реализован поиск фильмов без необходимости нажимать кнопку отправки.
+### Bonus Features:
+- **Pagination**: Added the ability to navigate between pages of movie lists for better usability.
+- **Editing Movie Cards**: Allows editing existing movie information.
+- **Additional Filtering**: Added a filter based on movie ratings.
+- **Search Functionality**: Implemented a search for movies without needing to press a submit button.
 
-## Технологический стек
+## Tech Stack
+- **React**: Used for building the user interface.
+- **TypeScript**: For ensuring type safety across the project.
+- **React Router**: For implementing routing and navigation.
+- **Axios**: For fetching data from the [TMDB API](https://www.themoviedb.org/documentation/api).
+- **Bootstrap**: For basic component styling.
+- **GitHub Pages**: For deploying the app.
 
-- **React**: Использован для построения пользовательского интерфейса.
-- **TypeScript**: Для обеспечения типизации в проекте.
-- **React Router**: Для реализации маршрутизации и навигации.
-- **Axios**: Для получения данных с [TMDB API](https://www.themoviedb.org/documentation/api).
-- **Bootstrap**: Для базовой стилизации компонентов.
-- **GitHub Pages**: Для деплоя приложения.
+## How to Run the Project Locally
 
-## Как запустить проект локально
-
-1. Клонируйте репозиторий:
+1. Clone the repository:
    ```bash
    git clone https://github.com/IrinaRakhimova/My_movies.git
    cd My_movies
-2.  Установите зависимости:
+2.  Install dependencies:
     npm install
-3.  Создайте файл .env в корневой директории проекта и добавьте ваш ключ TMDB API:  
+3.  Create a .env file in the root directory of the project and add your TMDB API key:  
     REACT_APP_API_KEY=your_tmdb_api_key_here
-4. Запустите приложение:
+4. Start the application:
     npm start 
 
-Приложение будет доступно по адресу http://localhost:3000        
+The app will be available at http://localhost:3000        
 
-## Используемое API
-Проект использует TMDB API для получения данных о фильмах, включая:
+## API Used
+The project uses the TMDB API to fetch movie data, including:
 
-- **Название**
-- **Описание**
-- **Постер**
-- **Рейтинг**
+- **Title**
+- **Description**
+- **Poster**
+- **Rating**
 
-## Демо проекта
-- Репозиторий на GitHub: [My_movies](https://github.com/IrinaRakhimova/My_movies)
-- Живая демонстрация: [My Movies App](https://irinarakhimova.github.io/My_movies/#/)
+## Project Demo
+- GitHub repository: [My_movies](https://github.com/IrinaRakhimova/My_movies)
+- Live demo: [My Movies App](https://irinarakhimova.github.io/My_movies/#/)

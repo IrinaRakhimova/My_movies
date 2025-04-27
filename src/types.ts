@@ -1,8 +1,9 @@
 export interface Movie {
-    id: number;
-    name: string;
-    about: string;
-    image: any;
-    rating: number;
-    isLiked?: boolean;
-  }
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: any;
+  rating: number;
+  vote_average?: number;
+  isLiked?: boolean;
+}

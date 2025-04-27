@@ -33,13 +33,9 @@
   .image {
     width: 150px;
   }
-} 
+}
 
 @media screen and (max-width: 985px) {
-  .navbar-brand {
-    display: none;
-  }
-
   .container-fluid {
     justify-content: center !important;
     padding: 0 !important;
@@ -51,7 +47,7 @@
 }
 
 @media screen and (max-width: 767px) {
-  .navigation{
+  .navigation {
     flex-direction: column;
     justify-content: center;
     align-items: center;

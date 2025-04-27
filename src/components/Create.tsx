@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import placeholder from "../images/film_placeholder.png";
 import { useNavigate } from "react-router-dom";
-import AddMovie from "./AddMovie";
 import arrow from "../images/arrow.svg";
 import { Movie } from "../types";
 
@@ -11,7 +10,7 @@ interface CreateProps {
   isInMovies: (id: number) => boolean;
 }
 
-const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) => {
+const Create: React.FC<CreateProps> = ({ addMovie }) => {
   const [movieName, setMovieName] = useState<string>("");
   const [movieAbout, setMovieAbout] = useState<string>("");
   const [movieFile, setMovieFile] = useState<string | ArrayBuffer | null>(null);
@@ -42,9 +41,9 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
 
     const newMovie: Movie = {
       id: Date.now(),
-      name: movieName,
-      about: movieAbout,
-      image: movieFile || placeholder,
+      title: movieName,
+      overview: movieAbout,
+      poster_path: movieFile || placeholder,
       rating: movieRating,
       isLiked: false,
     };
@@ -53,12 +52,12 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
     setMovieName("");
     setMovieAbout("");
     setMovieFile(null);
-    setMovieRating(50); 
+    setMovieRating(50);
     setMessage(`Movie added: ${movieName}`);
   };
 
   const handleClick = () => {
-    navigate('/');
+    navigate("/add_movie");
   };
 
   return (
@@ -68,12 +67,16 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
         onClick={handleClick}
         style={{ backgroundColor: "white", border: "none", color: "#0d6efd" }}
       >
-        <img src={arrow} alt="arrow" /> Home Page
+        <img src={arrow} alt="arrow" /> Back
       </button>
       <h1 className="text-center mt-4">Add Your Own Movie</h1>
       <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4">
         <div className="row mb-3 field">
-          <label htmlFor="Name" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
+          <label
+            htmlFor="Name"
+            className="col-sm-2 col-form-label"
+            style={{ width: "92px" }}
+          >
             Title
           </label>
           <div className="col-sm-10">
@@ -83,13 +86,17 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               id="Name"
               value={movieName}
               onChange={(e) => setMovieName(e.target.value)}
-              maxLength={500} 
+              maxLength={500}
               required
             />
           </div>
         </div>
         <div className="row mb-3 field">
-          <label htmlFor="About" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
+          <label
+            htmlFor="About"
+            className="col-sm-2 col-form-label"
+            style={{ width: "92px" }}
+          >
             Description
           </label>
           <div className="col-sm-10">
@@ -98,13 +105,17 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               id="About"
               value={movieAbout}
               onChange={(e) => setMovieAbout(e.target.value)}
-              maxLength={5000} 
+              maxLength={5000}
               required
             />
           </div>
         </div>
         <div className="row mb-3 field">
-          <label htmlFor="formFile" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
+          <label
+            htmlFor="formFile"
+            className="col-sm-2 col-form-label"
+            style={{ width: "92px" }}
+          >
             Poster
           </label>
           <div className="col-sm-10">
@@ -118,7 +129,11 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
           </div>
         </div>
         <div className="row mb-3 field">
-          <label htmlFor="customRange1" className="col-sm-2 col-form-label" style={{ width: "92px" }}>
+          <label
+            htmlFor="customRange1"
+            className="col-sm-2 col-form-label"
+            style={{ width: "92px" }}
+          >
             Rating
           </label>
           <div className="col-sm-10 d-flex align-items-center">
@@ -131,21 +146,35 @@ const Create: React.FC<CreateProps> = ({ addMovie, removeMovie, isInMovies }) =>
               value={movieRating}
               onChange={handleRangeChange}
             />
-            <output className="col-sm-2 text-end" style={{ paddingLeft: "10px", width: "50px" }}>
+            <output
+              className="col-sm-2 text-end"
+              style={{ paddingLeft: "10px", width: "50px" }}
+            >
               {movieRating}%
             </output>
           </div>
         </div>
-        <div className="d-flex justify-content-center flex-column align-items-end me-5" id="add-button-container">
-          <button type="submit" className="btn btn-primary w-25" id="add-button" style={{ minWidth: "100px", marginRight: "58px" }}>
+        <div
+          className="d-flex justify-content-center flex-column align-items-end me-5"
+          id="add-button-container"
+        >
+          <button
+            type="submit"
+            className="btn btn-primary w-25"
+            id="add-button"
+            style={{ minWidth: "100px", marginRight: "58px" }}
+          >
             Add
           </button>
-          <p className="mt-4 fw-bold text-success" id="add-message" style={{marginRight: "50px"}}>{message}</p>
+          <p
+            className="mt-4 fw-bold text-success"
+            id="add-message"
+            style={{ marginRight: "50px" }}
+          >
+            {message}
+          </p>
         </div>
       </form>
-      <div className="mx-5 px-3">
-        <AddMovie addMovie={addMovie} removeMovie={removeMovie} isInMovies={isInMovies} />
-      </div>
     </div>
   );
 };

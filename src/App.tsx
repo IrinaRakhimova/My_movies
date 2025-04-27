@@ -4,10 +4,12 @@ import Movies from "./components/Movies";
 import MoviePage from "./components/MoviePage";
 import Create from "./components/Create";
 import EditMovie from "./components/EditMovie";
+import AddMovieMenu from "./components/AddMovieMenu";
+import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { Movie } from "./types";
-
+import AddMovie from "./components/AddMovie";
 
 const App: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>(() => {
@@ -16,6 +18,9 @@ const App: React.FC = () => {
   });
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     const savedMovies = localStorage.getItem("movies");
@@ -25,9 +30,14 @@ const App: React.FC = () => {
   }, []);
 
   const addMovie = (newMovie: Movie): void => {
-    const moviesCombined = [newMovie, ...movies];
-    setMovies(moviesCombined);
-    localStorage.setItem("movies", JSON.stringify(moviesCombined));
+    const savedMovies = JSON.parse(
+      localStorage.getItem("movies") || "[]"
+    ) as Movie[];
+    if (!savedMovies.find((movie) => movie.id === newMovie.id)) {
+      const updatedMovies = [...savedMovies, newMovie];
+      setMovies(updatedMovies);
+      localStorage.setItem("movies", JSON.stringify(updatedMovies));
+    }
   };
 
   const removeMovie = (id: number): void => {
@@ -41,34 +51,60 @@ const App: React.FC = () => {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Movies
-            movies={movies}
-            setMovies={setMovies}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        }
+    <>
+      <Navbar
+        setSearchQuery={setSearchQuery}
+        setMessage={setMessage}
+        showFavorites={showFavorites}
+        setShowFavorites={setShowFavorites}
+        setCurrentPage={setCurrentPage}
       />
-      <Route path="/:id" element={<MoviePage movies={movies} />} />
-      <Route
-        path="/create"
-        element={
-          <Create
-            addMovie={addMovie}
-            removeMovie={removeMovie}
-            isInMovies={isInMovies}
-          />
-        }
-      />
-      <Route
-        path="/edit/:id"
-        element={<EditMovie movies={movies} setMovies={setMovies} />}
-      />
-    </Routes>
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Movies
+              movies={movies}
+              setMovies={setMovies}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              message={message}
+              showFavorites={showFavorites}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              setShowFavorites={setShowFavorites}
+            />
+          }
+        />
+        <Route path="/:id" element={<MoviePage movies={movies} />} />
+        <Route path="/add_movie" element={<AddMovieMenu />} />
+        <Route
+          path="/create"
+          element={
+            <Create
+              addMovie={addMovie}
+              removeMovie={removeMovie}
+              isInMovies={isInMovies}
+            />
+          }
+        />
+        <Route
+          path="/find"
+          element={
+            <AddMovie
+              addMovie={addMovie}
+              removeMovie={removeMovie}
+              isInMovies={isInMovies}
+            />
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={<EditMovie movies={movies} setMovies={setMovies} />}
+        />
+      </Routes>
+    </>
   );
 };
 

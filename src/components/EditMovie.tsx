@@ -1,113 +1,175 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import arrow from "../images/arrow.svg";
 import { Movie } from "../types";
 
 interface EditMovieProps {
-    movies: Movie[];
-    setMovies: React.Dispatch<React.SetStateAction<Movie[]>>;
+  movies: Movie[];
+  setMovies: React.Dispatch<React.SetStateAction<Movie[]>>;
 }
 
 const EditMovie: React.FC<EditMovieProps> = ({ movies, setMovies }) => {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const [movie, setMovie] = useState<Movie | null>(null);
-    const [movieName, setMovieName] = useState<string>("");
-    const [movieAbout, setMovieAbout] = useState<string>("");
-    const [movieFile, setMovieFile] = useState<string | ArrayBuffer | null>(null);
-    const [movieRating, setMovieRating] = useState<number>(50);
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [movieName, setMovieName] = useState<string>("");
+  const [movieAbout, setMovieAbout] = useState<string>("");
+  const [movieFile, setMovieFile] = useState<string | ArrayBuffer | null>(null);
+  const [movieRating, setMovieRating] = useState<number>(50);
 
-    useEffect(() => {
-        const currentMovie = movies.find(movie => movie.id === parseInt(id!));
-        if (currentMovie) {
-            setMovie(currentMovie);
-            setMovieName(currentMovie.name);
-            setMovieAbout(currentMovie.about);
-            setMovieFile(currentMovie.image);
-            setMovieRating(currentMovie.rating);
-        } else {
-            navigate('/');
-        }
-    }, [id, movies, navigate]);
+  useEffect(() => {
+    const currentMovie = movies.find((movie) => movie.id === parseInt(id!));
+    if (currentMovie) {
+      setMovie(currentMovie);
+      setMovieName(currentMovie.title);
+      setMovieAbout(currentMovie.overview);
+      setMovieFile(currentMovie.poster_path);
+      setMovieRating(currentMovie.rating);
+    } else {
+      navigate("/");
+    }
+  }, [id, movies, navigate]);
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setMovieFile(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMovieFile(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!movie) return;
+
+    const updatedMovie: Movie = {
+      ...movie,
+      title: movieName,
+      overview: movieAbout,
+      poster_path: (movieFile as string) || movie.poster_path,
+      rating: movieRating,
     };
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        if (!movie) return;
-
-        const updatedMovie: Movie = {
-            ...movie,
-            name: movieName,
-            about: movieAbout,
-            image: (movieFile as string) || movie.image,
-            rating: movieRating,
-        };
-
-        const updatedMovies = movies.map(m => m.id === movie.id ? updatedMovie : m);
-        setMovies(updatedMovies);
-        localStorage.setItem("movies", JSON.stringify(updatedMovies));
-        navigate(`/${movie.id}`);
-    };
-
-    const handleClick = () => {
-        navigate('/');
-    };
-
-    return (
-        <div className="container">            
-            <button className="btn btn-secondary mx-5 mt-2" onClick={handleClick} style={{ backgroundColor: "white", border: "none", color: "#0d6efd" }}>
-                <img src={arrow} alt="arrow"/> Home Page
-            </button>           
-            <h1 className="text-center mt-4">Edit</h1>
-            {movie && (
-                <form onSubmit={handleSubmit} className="mx-5 px-3 mt-4 d-flex form" style={{ height: "300px" }}>
-                    <div className='image-container'>
-                        <img src={movieFile as string} className='image' alt="movie poster" />
-                    </div>
-                    <div className='w-100 ms-5'>
-                        <div className="row mb-3">
-                            <label htmlFor="Name" className="col-sm-2 col-form-label">Title</label>
-                            <div className="col-sm-10">
-                                <input type="text" className="form-control" id="Name" value={movieName} onChange={(e) => setMovieName(e.target.value)} maxLength={500} required />
-                            </div>
-                        </div>
-                        <div className="row mb-3">
-                            <label htmlFor="About" className="col-sm-2 col-form-label">Description</label>
-                            <div className="col-sm-10">
-                                <textarea className="form-control" id="About" value={movieAbout} onChange={(e) => setMovieAbout(e.target.value)} maxLength={5000} required />
-                            </div>
-                        </div>
-                        <div className="row mb-3">
-                            <label htmlFor="formFile" className="col-sm-2 col-form-label">Change Poster</label>
-                            <div className="col-sm-10">
-                                <input className="form-control" type="file" accept="image/*" id="formFile" onChange={handleFileChange} />
-                            </div>
-                        </div>
-                        <div className="row mb-3">
-                            <label htmlFor="customRange1" className="col-sm-2 col-form-label">Rating</label>
-                            <div className="col-sm-10 d-flex align-items-center">
-                                <input type="range" className="form-range" id="customRange1" min="0" max="100" value={movieRating} onChange={(e) => setMovieRating(Number(e.target.value))} />
-                                <output className="col-sm-2 text-end" style={{ paddingLeft: "10px", width: "50px" }}>{movieRating}%</output>
-                            </div>                        
-                        </div>
-                        <div className="d-flex justify-content-center flex-column align-items-end">
-                            <button type="submit" className="btn btn-primary mt-3" style={{ width: "140px" }}>Save</button>
-                        </div>
-                    </div>
-                </form>
-            )}
-        </div>
+    const updatedMovies = movies.map((m) =>
+      m.id === movie.id ? updatedMovie : m
     );
+    setMovies(updatedMovies);
+    localStorage.setItem("movies", JSON.stringify(updatedMovies));
+    navigate(`/${movie.id}`);
+  };
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
+  return (
+    <div className="container">
+      <button
+        className="btn btn-secondary mx-5 mt-2"
+        onClick={handleClick}
+        style={{ backgroundColor: "white", border: "none", color: "#0d6efd" }}
+      >
+        <img src={arrow} alt="arrow" /> Home Page
+      </button>
+      <h1 className="text-center mt-4">Edit</h1>
+      {movie && (
+        <form
+          onSubmit={handleSubmit}
+          className="mx-5 px-3 mt-4 d-flex form"
+          style={{ height: "300px" }}
+        >
+          <div className="image-container">
+            <img
+              src={movieFile as string}
+              className="image"
+              alt="movie poster"
+            />
+          </div>
+          <div className="w-100 ms-5">
+            <div className="row mb-3">
+              <label htmlFor="Name" className="col-sm-2 col-form-label">
+                Title
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="Name"
+                  value={movieName}
+                  onChange={(e) => setMovieName(e.target.value)}
+                  maxLength={500}
+                  required
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <label htmlFor="About" className="col-sm-2 col-form-label">
+                Description
+              </label>
+              <div className="col-sm-10">
+                <textarea
+                  className="form-control"
+                  id="About"
+                  value={movieAbout}
+                  onChange={(e) => setMovieAbout(e.target.value)}
+                  maxLength={5000}
+                  required
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <label htmlFor="formFile" className="col-sm-2 col-form-label">
+                Change Poster
+              </label>
+              <div className="col-sm-10">
+                <input
+                  className="form-control"
+                  type="file"
+                  accept="image/*"
+                  id="formFile"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <label htmlFor="customRange1" className="col-sm-2 col-form-label">
+                Rating
+              </label>
+              <div className="col-sm-10 d-flex align-items-center">
+                <input
+                  type="range"
+                  className="form-range"
+                  id="customRange1"
+                  min="0"
+                  max="100"
+                  value={movieRating}
+                  onChange={(e) => setMovieRating(Number(e.target.value))}
+                />
+                <output
+                  className="col-sm-2 text-end"
+                  style={{ paddingLeft: "10px", width: "50px" }}
+                >
+                  {movieRating}%
+                </output>
+              </div>
+            </div>
+            <div className="d-flex justify-content-center flex-column align-items-end">
+              <button
+                type="submit"
+                className="btn btn-primary mt-3"
+                style={{ width: "140px" }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+      )}
+    </div>
+  );
 };
 
 export default EditMovie;

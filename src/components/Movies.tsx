@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import MovieCard from "./MovieCard";
-import Navbar from "./Navbar";
 import "../App.css";
 import left from "../images/left.svg";
 import right from "../images/right.svg";
@@ -11,6 +10,11 @@ interface MoviesProps {
   setMovies: React.Dispatch<React.SetStateAction<Movie[]>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  message: string;
+  showFavorites: boolean;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setShowFavorites: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ITEMS_PER_PAGE = 9;
@@ -21,11 +25,13 @@ const Movies: React.FC<MoviesProps> = ({
   setMovies,
   searchQuery,
   setSearchQuery,
+  message,
+  showFavorites,
+  currentPage,
+  setCurrentPage,
+  setShowFavorites,
 }) => {
-  const [message, setMessage] = useState<string>("");
   const [filterMessage, setFilterMessage] = useState<string>("");
-  const [showFavorites, setShowFavorites] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [ratingFilter, setRatingFilter] = useState<string>("all");
 
   useEffect(() => {
@@ -34,10 +40,6 @@ const Movies: React.FC<MoviesProps> = ({
     ) as Movie[];
     setMovies(savedMovies);
   }, [setMovies]);
-
-  useEffect(() => {
-    localStorage.setItem("movies", JSON.stringify(movies));
-  }, [movies]);
 
   const handleDelete = (id: number) => {
     setMovies(movies.filter((movie) => movie.id !== id));
@@ -52,8 +54,9 @@ const Movies: React.FC<MoviesProps> = ({
 
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch =
-      movie.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      movie.about.toLowerCase().includes(searchQuery.toLowerCase());
+      (movie.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        movie.overview?.toLowerCase().includes(searchQuery.toLowerCase())) ??
+      false;
 
     const matchesFavorites = !showFavorites || movie.isLiked;
 
@@ -158,66 +161,68 @@ const Movies: React.FC<MoviesProps> = ({
   };
 
   return (
-    <div>
-      <Navbar
-        setSearchQuery={setSearchQuery}
-        setMessage={setMessage}
-        showFavorites={showFavorites}
-        setShowFavorites={setShowFavorites}
-        setCurrentPage={setCurrentPage}
-      />
-      <main className="container">
-        <div className="d-flex justify-content-end mt-3" id="rating-container">
-          <select
-            className="form-select rating"
-            aria-label="Rating"
-            onChange={handleRatingChange}
-            style={{ width: "13rem", cursor: "pointer" }}
-          >
-            <option value="all">Any rating</option>
-            <option value="80-100">Rating 80-100%</option>
-            <option value="60-80">Rating 60-80%</option>
-            <option value="40-60">Rating 40-60%</option>
-            <option value="0-40">Rating below 40%</option>
-          </select>
+    <main className="container">
+      <div className="d-flex justify-content-end mt-3" id="rating-container">
+        <select
+          className="form-select rating"
+          aria-label="Rating"
+          onChange={handleRatingChange}
+          style={{ width: "13rem", cursor: "pointer" }}
+        >
+          <option value="all">Any rating</option>
+          <option value="80-100">Rating 80-100%</option>
+          <option value="60-80">Rating 60-80%</option>
+          <option value="40-60">Rating 40-60%</option>
+          <option value="0-40">Rating below 40%</option>
+        </select>
+      </div>
+      <div className="text-center fw-bold">
+        {searchQuery && <p>{message}</p>}
+        {filterMessage && <p>{filterMessage}</p>}
+      </div>
+      {showFavorites && filteredMovies.length === 0 ? (
+        <div className="text-center mt-5">
+          <h2>No favorites yet ❤️</h2>
+          <p>
+            You haven't chosen any favorites yet. To do that, click the like
+            button on any movie in your gallery. <br />
+            <button
+              className="btn btn-link p-0"
+              style={{
+                fontSize: "1rem",
+                color: "inherit",
+                textDecoration: "underline",
+              }}
+              onClick={() => setShowFavorites(false)}
+            >
+              Go back to all movies.
+            </button>
+          </p>
         </div>
-        <div className="text-center fw-bold">
-          {searchQuery && <p>{message}</p>}
-          {filterMessage && <p>{filterMessage}</p>}
+      ) : (
+        <div className="row justify-content-center mt-3 mb-3">
+          {currentMovies.map((movie) => (
+            <div
+              className="col-md-4 d-flex justify-content-center mb-4"
+              key={movie.id}
+            >
+              <MovieCard
+                movie={movie}
+                onDelete={handleDelete}
+                onToggleLike={handleToggleLike}
+              />
+            </div>
+          ))}
         </div>
-        {movies.length === 0 ? (
-          <div className="text-center mt-5">
-            <h2>No movies yet 🎬</h2>
-            <p>
-              Start by <a href="/My_movies/#/create">adding your first movie</a>
-              !
-            </p>
-          </div>
-        ) : (
-          <div className="row justify-content-center mt-3 mb-3">
-            {currentMovies.map((movie) => (
-              <div
-                className="col-md-4 d-flex justify-content-center mb-4"
-                key={movie.id}
-              >
-                <MovieCard
-                  movie={movie}
-                  onDelete={handleDelete}
-                  onToggleLike={handleToggleLike}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-        {totalPages > 1 && (
-          <div className="d-flex justify-content-center mt-4">
-            <nav>
-              <ul className="pagination">{renderPagination()}</ul>
-            </nav>
-          </div>
-        )}
-      </main>
-    </div>
+      )}
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center mt-4">
+          <nav>
+            <ul className="pagination">{renderPagination()}</ul>
+          </nav>
+        </div>
+      )}
+    </main>
   );
 };
 

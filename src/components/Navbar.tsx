@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import plus from "../images/plus.svg";
 import heart from "../images/heart_small.svg";
 import "../App.css";
@@ -20,9 +20,10 @@ const Navbar: React.FC<NavbarProps> = ({
   setCurrentPage,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
-    navigate(`/create`);
+    navigate(`/add_movie`);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,13 +36,15 @@ const Navbar: React.FC<NavbarProps> = ({
     setCurrentPage(1);
   };
 
+  const isHomePage = location.pathname === "/";
+
   return (
     <>
       <nav
         className="navbar sticky-top"
         style={{ width: "100%", backgroundColor: "black" }}
       >
-        <div className="container-fluid" style={{ maxWidth: "1290px" }}>
+        <div className="container-fluid">
           <a
             href="/My_movies/#/"
             className="navbar-brand new-amsterdam-regular fs-1 ms-5"
@@ -49,45 +52,50 @@ const Navbar: React.FC<NavbarProps> = ({
           >
             My movies
           </a>
-          <div className="d-flex me-5 navigation">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleClick}
-              style={{ width: "13rem" }}
-            >
-              <img src={plus} className="mb-1" alt="Add" /> Add Movie
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary mx-3"
-              id="nav-button"
-              onClick={toggleFavorites}
-              style={{ width: "13rem" }}
-            >
-              {showFavorites ? (
-                "Show All"
-              ) : (
-                <p className="mb-0">
-                  <img src={heart} alt="Favorites" /> Show Favorites
-                </p>
-              )}
-            </button>
-            <form
-              className="d-flex ms-5"
-              role="search"
-              style={{ width: "13rem" }}
-              id="nav-input"
-            >
-              <input
-                className="form-control"
-                type="search"
-                placeholder="Поиск"
-                aria-label="Search"
-                onChange={handleSearch}
-              />
-            </form>
-          </div>
+
+          {isHomePage && (
+            <div className="d-flex me-5 navigation">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleClick}
+                style={{ width: "13rem" }}
+              >
+                <img src={plus} className="mb-1" alt="Add" /> Add Movie
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-secondary mx-3"
+                id="nav-button"
+                onClick={toggleFavorites}
+                style={{ width: "13rem" }}
+              >
+                {showFavorites ? (
+                  "Show All"
+                ) : (
+                  <p className="mb-0">
+                    <img src={heart} alt="Favorites" /> Show Favorites
+                  </p>
+                )}
+              </button>
+
+              <form
+                className="d-flex ms-5"
+                role="search"
+                style={{ width: "13rem" }}
+                id="nav-input"
+              >
+                <input
+                  className="form-control"
+                  type="search"
+                  placeholder="Поиск"
+                  aria-label="Search"
+                  onChange={handleSearch}
+                />
+              </form>
+            </div>
+          )}
         </div>
       </nav>
     </>
