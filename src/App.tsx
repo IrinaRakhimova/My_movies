@@ -74,6 +74,7 @@ const App: React.FC = () => {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               setShowFavorites={setShowFavorites}
+              removeMovie={removeMovie}
             />
           }
         />

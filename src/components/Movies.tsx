@@ -15,6 +15,7 @@ interface MoviesProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setShowFavorites: React.Dispatch<React.SetStateAction<boolean>>;
+  removeMovie: (id: number) => void;
 }
 
 const ITEMS_PER_PAGE = 9;
@@ -24,12 +25,12 @@ const Movies: React.FC<MoviesProps> = ({
   movies,
   setMovies,
   searchQuery,
-  setSearchQuery,
   message,
   showFavorites,
   currentPage,
   setCurrentPage,
   setShowFavorites,
+  removeMovie,
 }) => {
   const [filterMessage, setFilterMessage] = useState<string>("");
   const [ratingFilter, setRatingFilter] = useState<string>("all");
@@ -40,10 +41,6 @@ const Movies: React.FC<MoviesProps> = ({
     ) as Movie[];
     setMovies(savedMovies);
   }, [setMovies]);
-
-  const handleDelete = (id: number) => {
-    setMovies(movies.filter((movie) => movie.id !== id));
-  };
 
   const handleToggleLike = (id: number) => {
     const updatedMovies = movies.map((movie) =>
@@ -180,7 +177,15 @@ const Movies: React.FC<MoviesProps> = ({
         {searchQuery && <p>{message}</p>}
         {filterMessage && <p>{filterMessage}</p>}
       </div>
-      {showFavorites && filteredMovies.length === 0 ? (
+      {movies.length === 0 ? (
+        <div className="text-center mt-5">
+          <h2>No movies yet 🎬</h2>
+          <p>
+            Start by{" "}
+            <a href="/My_movies/#/add_movie">adding your first movie</a>!
+          </p>
+        </div>
+      ) : showFavorites && filteredMovies.length === 0 ? (
         <div className="text-center mt-5">
           <h2>No favorites yet ❤️</h2>
           <p>
@@ -199,6 +204,11 @@ const Movies: React.FC<MoviesProps> = ({
             </button>
           </p>
         </div>
+      ) : filteredMovies.length === 0 ? (
+        <div className="text-center mt-5">
+          <h2>No movies found 🔍</h2>
+          <p>Try a different search term or reset your filters.</p>
+        </div>
       ) : (
         <div className="row justify-content-center mt-3 mb-3">
           {currentMovies.map((movie) => (
@@ -208,13 +218,14 @@ const Movies: React.FC<MoviesProps> = ({
             >
               <MovieCard
                 movie={movie}
-                onDelete={handleDelete}
+                onDelete={removeMovie}
                 onToggleLike={handleToggleLike}
               />
             </div>
           ))}
         </div>
       )}
+
       {totalPages > 1 && (
         <div className="d-flex justify-content-center mt-4">
           <nav>
