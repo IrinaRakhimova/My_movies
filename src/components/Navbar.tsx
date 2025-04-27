@@ -44,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({
         className="navbar sticky-top"
         style={{ width: "100%", backgroundColor: "black" }}
       >
-        <div className="container-fluid">
+        <div className="container-fluid" style={{maxWidth: "1290px"}}>
           <a
             href="/My_movies/#/"
             className="navbar-brand new-amsterdam-regular fs-1 ms-5"
